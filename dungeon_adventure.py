@@ -6,11 +6,12 @@ def start_game():
     char_name()
     difficulty()
 
-"""This method restarts the game if """
+"""This method restarts the game without intro / how to play guide."""
 def restart_game():
     char_name()
     difficulty()
 
+"""This method provides an overview of the game"""
 def intro():
     print("Welcome to the Dungeon of Doom!  Prepare for the most difficult \n"
           "challenge of your adventure-seeking life.  Check your pride at the door,\n"
@@ -18,7 +19,8 @@ def intro():
           "pits and race against your own agony to capture the elusive....... \n\n"
           "*****  Four Pillars of Object-Oriented Programming *****\n")
 
-
+"""This method describes the goal of the game, how to win, and the objects
+encountered during the game"""
 def how_to_play():
     print("The goal of this game is to escape the dungeon maze after finding the\n"
           "four pillars:\n"
@@ -32,6 +34,8 @@ def how_to_play():
           "Potions scattered about the dungeon to help you in your quest. Once you\n"
           "collect all Four Pillars of OO, the exit door will unlock --- if you reach\n"
           "the exit before your HP reaches a big fat zero, you win!\n\n"
+          "You can move throughout the map by typing \'u\', \'d\', \'l\', or \'r\'\n"
+          "You can only move through the doors that exist in the dungeon.\n\n"
           "Be strong in your journey...\n\"Even death is not to be feared by one who "
           "has lived wisely\" --- Buddha\n")
 
