@@ -16,11 +16,12 @@ class Dungeon:
         for row in range(0, self.__rowCount):
             print("row ", row)
             for col in range(0, self.__colCount):
+                print("\n")
                 print(self.__maze[row][col].__str__())
             print()
 
     def set_health_potion(self, row, col):
-        self.__maze[row][col].set_health(True)
+        self.__maze[row][col].set_healing_potion()
 
     # WARNING: Work in progress ;-)
     def traverse(self, row, col):
