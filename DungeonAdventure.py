@@ -89,7 +89,7 @@ def difficulty():
     else:
         print("\n\"Ahhhhhhhhhhhhh\" (That's the sound of you being thrown into "
               "the gorge because you didn't enter an integer between 1-5.)  Game over.\n")
-        return restart_game()
+        restart_game()
 
    #recursive calls to ensure dungeon is traverable and can find all pillars
     while Dungeon.traversable(game_board) is False:
@@ -104,14 +104,12 @@ def print_room():
     pass
 
 
-
 def user_input():
     """This method will allow the user to perform a set of tasks based on the room and
     inventory the adventurer holds:  Move, use healing/vision potion, view inventory, give up"""
     keystroke = input("What would you like to do? Press \"1\" for all options.")
     if keystroke == "1":
         options = []
-        options.append("q")
         # add "u" if door above
         # add "d" if door below
         # add "l" if door left
