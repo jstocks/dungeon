@@ -77,7 +77,7 @@ def difficulty():
     if low <= level <= high:
         # create dungeon by array size based on level input
         if level == 1:
-            game_board = Dungeon(2, 2)
+            game_board = Dungeon(3, 3)
         if level == 2:
             game_board = Dungeon(4, 4)
         if level == 3:
@@ -185,8 +185,8 @@ def game_over():
     if Adventurer.all_pillars_found is True:
         if Dungeon.room == Exit:
             print("Horace Mann once said, \"Be ashamed to die until you have "
-                      "won some victory for humanity.\"  And today, you won!\n\n"
-                      "Congratulations!  You defeated the Dungeon of Doom!\n\n")
+                  "won some victory for humanity.\"  And today, you won!\n\n"
+                  "Congratulations!  You defeated the Dungeon of Doom!\n\n")
             roll_credits()
 
 def roll_credits():
