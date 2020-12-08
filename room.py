@@ -1,6 +1,6 @@
 class Room:
     def __init__(self):
-        self.__healing_portion = False
+        self.__healing_potion = False
         self.__pit = False
         self.__pillar = "No pillar"
         self.__vision = False
@@ -10,11 +10,11 @@ class Room:
         self.__visited = False
         self.__item_count = 0
 
-    def get_healing_portion(self):
-        return self.__healing_portion
+    def get_healing_potion(self):
+        return self.__healing_potion
 
-    def set_healing_portion(self):
-        self.__healing_portion = True
+    def set_healing_potion(self):
+        self.__healing_potion = True
         self.__item_count += 1
 
     def get_pit(self):
@@ -62,7 +62,7 @@ class Room:
         return self.__item_count > 1
 
     def __str__(self):
-        return "Healing Portion: " + str(self.__healing_portion) + "\n" \
+        return "Healing Potion: " + str(self.__healing_potion) + "\n" \
             + "Pit: " + str(self.__pit) + "\n" \
             + "Pillar: " + str(self.__pillar) + "\n" \
             + "Vision: " + str(self.__pillar) + "\n" \
