@@ -192,8 +192,8 @@ def game_over():
     if Adventurer.all_pillars_found:
         if Room.is_exit:
             print("Horace Mann once said, \"Be ashamed to die until you have "
-                      "won some victory for humanity.\"  And today, you won!\n\n"
-                      "Congratulations!  You defeated the Dungeon of Doom!\n\n")
+                  "won some victory for humanity.\"  And today, you won!\n\n"
+                  "Congratulations!  You defeated the Dungeon of Doom!\n\n")
             roll_credits()
 
 def roll_credits():
