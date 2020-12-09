@@ -74,6 +74,17 @@ class Adventurer:
                "Vision Potions: {self.vision_potions}\n" \
                "Pillars found: {self.pillars}".format(self=self)
 
+    def move_up(self):
+        pass
+
+    def move_down(self):
+        pass
+
+    def move_left(self):
+        pass
+
+    def move_right(self):
+        pass
 
 if __name__ == '__main__':
     print("     Creating and printing out the status of a player named John:")
