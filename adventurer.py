@@ -3,7 +3,7 @@ import random
 
 class Adventurer:
     def __init__(self, name):
-        self.name = name
+        self.__name = name
         self.__health_points = random.randint(75, 100)
         self.__healing_potions = []
         self.__vision_potions = 0
@@ -47,7 +47,7 @@ class Adventurer:
         pass
 
     def use_healing_potion(self):
-        #make a condition to keep asking user to enter proper input
+        # make a condition to keep asking user to enter proper input
         condition = False
         # check if player has any potions he can use
         potion_counter = 1
@@ -72,7 +72,7 @@ class Adventurer:
                 # check if input is an available index
                 elif 0 < potion_to_use <= len(self.__healing_potions):
                     healing_amount = self.__healing_potions[potion_to_use - 1]
-                    self.change_hp(healing_amount)
+                    self.change_health_points(healing_amount)
                     del self.__healing_potions[potion_to_use - 1]
                     print("You just healed " + str(healing_amount) + " health.\nCurrent health is now " +
                           str(self.__health_points))
@@ -114,15 +114,15 @@ class Adventurer:
         print(player)
 
     def __str__(self):
-        return "{self.__name}:\n" \
-               "HP: {self.__health_points}\n" \
-               "Healing Potions: {self.__healing_potions}\n" \
-               "Vision Potions: {self.__vision_potions}\n" \
+        return self.__name + ":\n" \
+               "HP: " + str(self.__health_points) + "\n" \
+               "Healing Potions: " + str(self.__healing_potions) + "\n" \
+               "Vision Potions: " + str(self.__vision_potions) + "\n" \
                "Pillars found: \n" \
-               "A:\t{self.__pillar_a}\n" \
-               "E:\t{self.__pillar_e}\n" \
-               "I:\t{self.__pillar_i}\n" \
-               "P:\t{self.__pillar_p}\n".format(self=self)
+               "A:\t{}\n" \
+               "E:\t{}\n" \
+               "I:\t{}\n" \
+               "P:\t{}\n".format(self.__pillar_a, self.__pillar_e, self.__pillar_i, self.__pillar_p)
 
 
 if __name__ == '__main__':
@@ -175,5 +175,3 @@ if __name__ == '__main__':
     # player.fell_into_pit()
     # print("Current HP:" + str(player.hp))
     #
-
-
