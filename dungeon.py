@@ -256,34 +256,47 @@ class Dungeon:
     # Dee: Is the destination accessible
     # return: True/False
     def traverse(self, row, col, destination):
-
+        # first find Pillar A, then reset visited, then find Pillar E, then reset
+        # visited, then
         found_exit = False
-        print("start row:" + str(row))
+        found_a = False
+        found_e = False
+        found_i = False
+        found_p = False
+
+        print("start row:" + str(row) + "start col:" + str(col))
         if self.is_valid_room(row, col) and not self.__maze[row][col].is_visited():
 
             # check for exit
             if destination == 'Exit' and self.__maze[row][col].is_exit():
                 return True
             if destination == 'PillarA' and self.__maze[row][col].is_pillar_a():
+                found_a = True
                 return True
             if destination == 'PillarE' and self.__maze[row][col].is_pillar_e():
+                found_e = True
                 return True
             if destination == 'PillarI' and self.__maze[row][col].is_pillar_i():
+                found_i = True
                 return True
             if destination == 'PillarP' and self.__maze[row][col].is_pillar_p():
+                found_p = True
                 return True
 
             # not at exit so try another room: south, east, north, west
             self.__maze[row][col].set_visited(True)
             # if east_wall is not true, then we can go row +1
-            #
-            found_exit = self.traverse(row + 1, col, destination)
+            if self.__maze[row][col].walls['E'] is False:
+                found_exit = self.traverse(row + 1, col, destination)
             if not found_exit:
-                found_exit = self.traverse(row, col + 1, destination)
+                if self.__maze[row][col].walls['S'] is False:
+                    found_exit = self.traverse(row, col + 1, destination)
             if not found_exit:
-                found_exit = self.traverse(row - 1, col, destination)
+                if self.__maze[row][col].walls['W'] is False:
+                    found_exit = self.traverse(row - 1, col, destination)
             if not found_exit:
-                found_exit = self.traverse(row, col - 1, destination)
+                if self.__maze[row][col].walls['N'] is False:
+                    found_exit = self.traverse(row, col - 1, destination)
 
             # if we did not reach the exit from this room we need mark it as visited to
             # avoid going into the room again
@@ -299,7 +312,7 @@ class Dungeon:
 
 
 
-maze1 = Dungeon(2, 2, 0, 0)
+maze1 = Dungeon(5, 5, 0, 0)
 print("initial matrix")
 print(maze1)
 maze1.make_dungeon()
@@ -307,8 +320,8 @@ print("\n\ncreate maze")
 print(maze1)
 print("\n\nPlace Items")
 maze1.place_entrance()
-maze1.place_exit()
-# maze1.place_pillar_a()
+# maze1.place_exit()
+maze1.place_pillar_a()
 # maze1.place_pillar_e()
 # maze1.place_pillar_i()
 # maze1.place_pillar_p()
@@ -321,10 +334,10 @@ print(maze1)
 print("Entrance: " + str(maze1.entrance_room()))
 print("Exit: " + str(maze1.exit_room()))
 print("Pillar A: " + str(maze1.pillar_a_room()))
-res = maze1.can_travers_to_exit()
-print(res)
-# res = maze1.can_travers_to_pillar_a()
+# res = maze1.can_travers_to_exit()
 # print(res)
+res = maze1.can_travers_to_pillar_a()
+print(res)
 # res = maze1.can_travers_to_pillar_e()
 # print(res)
 # res = maze1.can_travers_to_pillar_i()
