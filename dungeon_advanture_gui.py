@@ -5,6 +5,9 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
 from tkinter.simpledialog import askstring
+from dungeon import Dungeon
+
+my_name = ''
 
 
 def resize_image(event):
@@ -12,14 +15,15 @@ def resize_image(event):
     new_height = event.height
 
     image = copy_of_image.resize((new_width, new_height))
-    photo = ImageTk.PhotoImage(image)
+    bk_photo = ImageTk.PhotoImage(image)
 
-    label.config(image=photo)
-    label.image = photo  # avoid garbage collection
+    label.config(image=bk_photo)
+    label.image = bk_photo  # avoid garbage collection
 
 
 def what_is_your_name():
-    return askstring('THE Dungeon OF Doom', 'What is your name?')
+    global my_name
+    my_name = askstring('THE Dungeon OF Doom', 'What is your name?')
 
     # if name == '':
     #     name = "You didn't give us you name"
@@ -47,7 +51,7 @@ def how_to():
 
 root = Tk()
 root.title("Title")
-root.geometry('600x600')
+root.geometry('800x800')
 root.title("THE Dungeon OF Doom by Jeff-Dee-Kishan")
 
 intro = "Welcome to the Dungeon of Doom!  Prepare for the most difficult\n" \
@@ -73,10 +77,6 @@ center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 # ---------------- introduction -----------------
 Label(center_frame, text=intro, width=60).pack()
 
-# ---------------- Get: Player Name --------------------
-# entry_name = Entry(root)
-# entry_name.grid(row=0, column=1)
-
 # ---------------- button --------------------
 bottom_frame = Frame(root)
 bottom_frame.pack(side=BOTTOM)
@@ -87,6 +87,12 @@ start_button.pack(side=BOTTOM)
 howto_button = Button(center_frame, text="How to play...", bg='green', command=how_to)
 howto_button.pack(side=BOTTOM)
 
+# Label(center_frame, text=intro, width=60).pack()
+maze_label = Label(root)
+maze = Dungeon(5, 5, 0, 0)
+# font=("Courier New", 16, "italic")
+# Label.configure(font=("Courier New", 16, "bold"))
+Label(center_frame, text=maze, width=60).pack()
 
 root.mainloop()
 
