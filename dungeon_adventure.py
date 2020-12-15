@@ -58,8 +58,9 @@ def how_to_play():
           "Potions scattered about the dungeon to help you in your quest. Once you\n"
           "collect all Four Pillars of OO, the exit door will unlock --- if you reach\n"
           "the exit before your HP reaches a big fat zero, you win!\n\n"
-          "You can move throughout the map by typing \'u\', \'d\', \'l\', or \'r\'\n"
+          "Move throughout the map by typing \'u\', \'d\', \'l\', or \'r\'\n"
           "You can only move through the doors that exist in the dungeon.\n\n"
+          "Check the status of your adventurer by typing \'s\'.\n\n"
           "Be strong in your journey...\n\"Even death is not to be feared by one who "
           "has lived wisely\" --- Buddha\n")
 
@@ -188,14 +189,17 @@ def user_input(dungeon, adventurer):
     # quit option
     elif keystroke == "q":
         a = input("Temptation to quit is the greatest just before you are about "
-                  "to succeed.  Do you really want to give up? (y or n) ")
+                  "to succeed.\nDo you really want to give up? (y or n): ")
         if a == "y":
-            print("There is a difference between giving up and knowing when you had enough.\n"
-                  "Better luck next time.  Game over.")
-            # press Enter to restart
+            print("\nThere is a difference between giving up and knowing when you had enough.\n\n"
+                  "Better luck next time.  Game over.\n")
+            input("Press Enter to restart or exit the game.")
             restart_game()
-        if a == "n":
+        elif a == "n":
+            print_room(dungeon)
             user_input(dungeon, adventurer)
+        else:
+            print("That is not a valid command. Try again.")
     # move adventurer
     elif keystroke == "u":
         # need to validate if it is possible to move up
@@ -203,20 +207,29 @@ def user_input(dungeon, adventurer):
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_north_wall() is False:
             dungeon.move_to(x, y - 1)
+        else:
+            print("That is not a valid command.  Try again. ")
     elif keystroke == "d":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_south_wall() is False:
             dungeon.move_to(x, y + 1)
+        else:
+            print("That is not a valid command.  Try again. ")
     elif keystroke == "l":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_west_wall() is False:
             dungeon.move_to(x - 1, y)
+        else:
+            print("That is not a valid command.  Try again. ")
     elif keystroke == "r":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_east_wall() is False:
             dungeon.move_to(x + 1, y)
+        else:
+            print("That is not a valid command.  Try again. ")
 
     elif keystroke == "s":
+        print("Status:")
         print(player)
         print_room(dungeon)
         user_input(dungeon, adventurer)
@@ -241,13 +254,14 @@ def user_input(dungeon, adventurer):
     # check for pick up vision if...
     # check for pit, hurt if so...
 
+    print_room(dungeon)
     user_input(dungeon, adventurer)
 
 
 def hidden_menu():
     """This method provides a hidden menu feature that prints out the entire dungeon
     for testing / easter egg purposes"""
-    # currently built into the user_input method
+    # currently built into the user_input method "map"
     pass
 
 
@@ -256,12 +270,12 @@ def print_dungeon():
     pass
 
 
-def game_over():
+def game_over(dungeon):
     """This method determines the end of the game --- 1) LOSE if hero runs out of HP
      2) WIN if the adventurer collects all four pillars and finds the exit."""
     if Adventurer.is_alive is False:
         print("It is not just a flesh wound this time.  You died.")
-        Dungeon.print_maze()
+        print(dungeon)
         roll_credits()
         input("Press Enter to restart game...")
         restart_game()
@@ -270,6 +284,7 @@ def game_over():
             print("Horace Mann once said, \"Be ashamed to die until you have "
                   "won some victory for humanity.\"  And today, you won!\n\n"
                   "Congratulations!  You defeated the Dungeon of Doom!\n\n")
+            print(dungeon)
             roll_credits()
 
 def roll_credits():
