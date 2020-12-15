@@ -73,18 +73,9 @@ class Adventurer:
                "Healing Potions: {self.healing_potions}\n" \
                "Vision Potions: {self.vision_potions}\n" \
                "Pillars found: {self.pillars}".format(self=self)
+    def get_player_name(self):
+        return str(self.name)
 
-    def move_up(self):
-        pass
-
-    def move_down(self):
-        pass
-
-    def move_left(self):
-        pass
-
-    def move_right(self):
-        pass
 
 if __name__ == '__main__':
     print("     Creating and printing out the status of a player named John:")
@@ -135,6 +126,3 @@ if __name__ == '__main__':
     print("     Fell into pit:")
     player.fell_into_pit()
     print("Current HP:" + str(player.hp))
-
-
-
