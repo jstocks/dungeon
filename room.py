@@ -1,94 +1,182 @@
-from door import Door
+"""excerpts taken from https://github.com/scipython/scipython-maths/blob/master/maze/df_maze.py"""
 
 
 class Room:
-    def __init__(self, *args, **kwargs):
-        for arg in args:
-            if arg == "H":
-                self.__has_healing_portion = True
-            if arg == "X":
-                self.__has_pit = True
-            if arg == "A":
-                self.__has_pillar_A = True
-            if arg == "E":
-                self.__has_pillar_E = True
-            if arg == "I":
-                self.__has_pillar_I = True
-            if arg == "P":
-                self.__has_pillar_P = True
-            if arg == "V":
-                self.__has_vision = True
-            if arg == "O":
-                self.__exit = True
-            if arg == "i":
-                self.__entrance = True
-            if arg == "":
-                self.__space = True
-            if arg == "M":
-                self.__has_healing_portion = True
-                self.__has_pillar = True
-                self.__has_vision = True
 
-        for key, value in kwargs.items():
-            if key == "front":
-                self.__font_door = Door(value)
-            if key == "back":
-                self.__back_door = Door(value)
-            if key == "top":
-                self.__top_door = Door(value)
-            if key == "bottom":
-                self.__bottom_door = Door(value)
+    wall_pairs = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
-    def has_healing_portion(self):
-        return self.__has_healing_portion is True
+    def __init__(self, x, y):
+        self.__healing_potion = False
+        self.__pit = False
+        self.__pillar_a = False
+        self.__pillar_e = False
+        self.__pillar_i = False
+        self.__pillar_p = False
+        self.__vision_potion = False
+        self.__exit = False
+        self.__entrance = False
+        self.__impassable = False
+        self.__visited = False
+        self.__item_count = 0
+        self.x = x
+        self.y = y
+        self.walls = {"N": True, "S": True, "E": True, "W": True}
 
-    def has_pit(self):
-        return self.__has_pit is True
+    def get_healing_potion(self, ):
+        """getter for healing potion"""
+        return self.__healing_potion
 
-    def has_pillar_a(self):
-        return self.__has_pillar_A is True
+    def set_healing_potion(self, add_potion):
+        """setter for healing potion"""
+        self.__healing_potion = add_potion
+        self.__item_count += 1
 
-    def has_pillar_e(self):
-        return self.__has_pillar_E is True
+    def get_pit(self):
+        """getter for pit"""
+        return self.__pit
 
-    def has_pillar_i(self):
-        return self.__has_pillar_I is True
+    def set_pit(self, fall_in):
+        """setter for pit"""
+        self.__pit = fall_in
 
-    def has_pillar_p(self):
-        return self.__has_pillar_P is True
+    def get_pillar_a(self):
+        """getter for pillar a"""
+        return self.__pillar_a
 
-    def has_vision(self):
-        return self.__has_vision is True
+    def set_pillar_a(self, add_pillar_a):
+        """setter for pillar a"""
+        self.__pillar_a = add_pillar_a
+        self.__item_count += 1
 
-    def is_room_empty(self):
-        return self.__space is True
+    def get_pillar_e(self):
+        """getter for pillar e"""
+        return self.__pillar_e
 
-    def has_entrance(self):
-        return self.__entrance is True
+    def set_pillar_e(self, add_pillar_e):
+        """setter for pillar e"""
+        self.__pillar_e = add_pillar_e
+        self.__item_count += 1
 
-    def has_exit(self):
-        return self.__exit is True
+    def get_pillar_i(self):
+        """getter for pillar i"""
+        return self.__pillar_i
 
-    def open_front_door(self):
-        return self.__font_door.is_lock() is True
+    def set_pillar_i(self, add_pillar_i):
+        """setter for pillar i"""
+        self.__pillar_i = add_pillar_i
+        self.__item_count += 1
 
-    def open_back_door(self):
-        return self.__back_door.is_lock() is True
+    def get_pillar_p(self):
+        """getter for pillar p"""
+        return self.__pillar_p
 
-    def open_top_door(self):
-        return self.__top_door.is_lock() is True
+    def set_pillar_p(self, add_pillar_p):
+        """setter for pillar p"""
+        self.__pillar_p = add_pillar_p
+        self.__item_count += 1
 
-    def open_bottom_door(self):
-        return self.__bottom_door.is_lock() is True
+    def get_vision_potion(self):
+        """getter for vision potion"""
+        return self.__vision_potion
 
+    def set_vision_potion(self, add_vision):
+        """setter for vision potion"""
+        self.__vision_potion = add_vision
+        self.__item_count += 1
 
-inside = {"H", "V", "i"}
-door = {'font': True, 'back': False, 'top': False, 'bottom': False}
-rm = Room(inside, door)
+    def get_exit(self):
+        """getter for exit"""
+        return self.__exit
 
-rm.has_pit()
+    def set_exit(self, add_exit):
+        """setter for exit"""
+        self.__exit = add_exit
 
+    def get_entrance(self):
+        """getter for entrance"""
+        return self.__entrance
 
+    def set_entrance(self, add_entrance):
+        """setter for entrance"""
+        self.__entrance = add_entrance
 
+    def set_visited(self, add_visited):
+        self.__visited = add_visited
 
+    def reset_visited(self):
+        self.__visited = False
 
+    def is_visited(self):
+        return self.__visited is True
+
+    def is_multiple_item(self):
+        return self.__item_count > 1
+
+    def has_a_pillar(self):
+        if self.__pillar_a or self.__pillar_e or self.__pillar_i or self.__pillar_p:
+            return True
+        else:
+            return False
+
+    def __repr__(self):
+        return "Walls: " + str(self.walls) + "\n" \
+            + "Healing Potion: " + str(self.__healing_potion) + "\n" \
+            + "Pit: " + str(self.__pit) + "\n" \
+            + "Pillar A: " + str(self.__pillar_a) + "\n" \
+            + "Pillar E: " + str(self.__pillar_e) + "\n" \
+            + "Pillar I: " + str(self.__pillar_i) + "\n" \
+            + "Pillar P: " + str(self.__pillar_p) + "\n" \
+            + "Vision: " + str(self.__vision_potion) + "\n" \
+            + "Exit: " + str(self.__exit) + "\n" \
+            + "Entrance: " + str(self.__entrance) + "\n" \
+            + "Impassable: " + str(self.__impassable) + "\n" \
+            + "Visited: " + str(self.__visited)
+
+###############################################################################
+
+    def has_all_walls(self):
+        """returns True if Room has all 4 walls"""
+        return all(self.walls.values())
+
+    def has_north_wall(self):
+        return self.walls["N"]
+
+    def has_south_wall(self):
+        return self.walls["S"]
+
+    def has_east_wall(self):
+        return self.walls["E"]
+
+    def has_west_wall(self):
+        return self.walls["W"]
+
+    def connect(self, other, wall):
+        """Removes the wall between two adjacent cells."""
+        self.walls[wall] = False
+        other.walls[Room.wall_pairs[wall]] = False
+
+    def get_letter(self):
+        if self.__entrance:
+            return "i"
+        if self.__exit:
+            return "o"
+        if self.__item_count > 1:
+            return "M"
+
+        # we have 1 item
+        if self.__healing_potion:
+            return "H"
+        elif self.__vision_potion:
+            return "V"
+        elif self.__pit:
+            return "X"
+        elif self.__pillar_a:
+            return "A"
+        elif self.__pillar_e:
+            return "E"
+        elif self.__pillar_i:
+            return "I"
+        elif self.__pillar_p:
+            return "P"
+        else:
+            return " "
