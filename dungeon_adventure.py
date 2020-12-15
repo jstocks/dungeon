@@ -68,7 +68,7 @@ def create_adv():
     """This method asks user for Character Name input. This should reference the
     Adventurer Class"""
     player_name = input("Welcome to the bridge of death... What is your name?: ")
-    player = Adventurer(player_name)
+    Adventurer(player_name)
 
 
 def difficulty():
@@ -172,12 +172,15 @@ def user_input(dungeon):
             options.append("r")
         if dungeon.is_valid_room(x, y) is True and room.has_west_wall() is False:
             options.append("l")
-        # if adventurer.has_healing_potions is True:
+        # if adventurer.has_healing_potion is > 0:
         #     options.append("h")
         # if adventurer.has_vision_potion is True:
         #     options.append("v")
+        # View Status
+        print(player)
         options.append("q")
         print(options)
+        print_room(dungeon)
         user_input(dungeon)
 
     # quit option
@@ -200,6 +203,7 @@ def user_input(dungeon):
             dungeon.move_to(x, y - 1)
         else:
             print("That is not a valid command.  Try again.")
+            print_room(dungeon)
             user_input(dungeon)
     elif keystroke == "d":
         x, y = dungeon.current_room()
@@ -207,6 +211,7 @@ def user_input(dungeon):
             dungeon.move_to(x, y + 1)
         else:
             print("That is not a valid command.  Try again.")
+            print_room(dungeon)
             user_input(dungeon)
     elif keystroke == "l":
         x, y = dungeon.current_room()
@@ -214,6 +219,7 @@ def user_input(dungeon):
             dungeon.move_to(x - 1, y)
         else:
             print("That is not a valid command.  Try again.")
+            print_room(dungeon)
             user_input(dungeon)
     elif keystroke == "r":
         x, y = dungeon.current_room()
@@ -221,10 +227,11 @@ def user_input(dungeon):
             dungeon.move_to(x + 1, y)
         else:
             print("That is not a valid command.  Try again.")
+            print_room(dungeon)
             user_input(dungeon)
-    #use healing potion
+    # use healing potion
     # elif keystroke == "h":
-    #     if adventurer.has_healing_potion():
+    #     adventurer.use_healing_potion():
     #
     # # use vision potion
     # elif keystroke == "v":
@@ -238,6 +245,11 @@ def user_input(dungeon):
 
     # prints new room, then prompts for next user input
     print_room(dungeon)
+    # discover_room() # will pick up potion, discover pillar, or hurt you via pit
+    # check for pick_up healing potion if....
+    # check for pick up vision if...
+    # check for pit, hurt if so...
+
     user_input(dungeon)
 
 

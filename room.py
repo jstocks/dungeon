@@ -29,7 +29,10 @@ class Room:
     def set_healing_potion(self, add_potion):
         """setter for healing potion"""
         self.__healing_potion = add_potion
-        self.__item_count += 1
+        if add_potion:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_pit(self):
         """getter for pit"""
@@ -38,6 +41,10 @@ class Room:
     def set_pit(self, fall_in):
         """setter for pit"""
         self.__pit = fall_in
+        if fall_in:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_pillar_a(self):
         """getter for pillar a"""
@@ -46,7 +53,10 @@ class Room:
     def set_pillar_a(self, add_pillar_a):
         """setter for pillar a"""
         self.__pillar_a = add_pillar_a
-        self.__item_count += 1
+        if add_pillar_a:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_pillar_e(self):
         """getter for pillar e"""
@@ -55,7 +65,10 @@ class Room:
     def set_pillar_e(self, add_pillar_e):
         """setter for pillar e"""
         self.__pillar_e = add_pillar_e
-        self.__item_count += 1
+        if add_pillar_e:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_pillar_i(self):
         """getter for pillar i"""
@@ -64,7 +77,10 @@ class Room:
     def set_pillar_i(self, add_pillar_i):
         """setter for pillar i"""
         self.__pillar_i = add_pillar_i
-        self.__item_count += 1
+        if add_pillar_i:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_pillar_p(self):
         """getter for pillar p"""
@@ -73,7 +89,10 @@ class Room:
     def set_pillar_p(self, add_pillar_p):
         """setter for pillar p"""
         self.__pillar_p = add_pillar_p
-        self.__item_count += 1
+        if add_pillar_p:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_vision_potion(self):
         """getter for vision potion"""
@@ -82,7 +101,10 @@ class Room:
     def set_vision_potion(self, add_vision):
         """setter for vision potion"""
         self.__vision_potion = add_vision
-        self.__item_count += 1
+        if add_vision:
+            self.__item_count += 1
+        else:
+            self.__item_count -= 1
 
     def get_exit(self):
         """getter for exit"""
