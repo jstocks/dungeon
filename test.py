@@ -44,6 +44,7 @@ class DungeonAdventure:
                 showinfo('THE Dungeon OF Doom', "Don't be shy. Name is required to the start the game !!!")
             else:
                 showinfo('THE Dungeon OF Doom', 'Hello, {}. Welcome to THE DUNGEON OF DOOM'.format(self.__user_name))
+            self.game_active()
 
         def how_to():
             how = "The goal of this game is to escape the dungeon maze after finding the\n" \
