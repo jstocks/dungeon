@@ -13,22 +13,22 @@ def start_game():
     It also kicks off the game with character name and difficulty."""
     intro()
     how_to_play()
-    create_adv()
+    adventurer = create_adv()
     dungeon = difficulty()
-    play(dungeon)
+    play(dungeon, adventurer)
 
 
 def restart_game():
     """This method restarts the game without intro / how to play guide."""
-    create_adv()
+    adventurer = create_adv()
     dungeon = difficulty()
-    play(dungeon)
+    play(dungeon, adventurer)
 
 
-def play(dungeon):
+def play(dungeon, adventurer):
     """This method holds the logic for playing the game."""
     print_room(dungeon)
-    user_input(dungeon)
+    user_input(dungeon, adventurer)
     hidden_menu()
     # print_dungeon()
     game_over()
@@ -68,7 +68,7 @@ def create_adv():
     """This method asks user for Character Name input. This should reference the
     Adventurer Class"""
     player_name = input("Welcome to the bridge of death... What is your name?: ")
-    Adventurer(player_name)
+    return Adventurer(player_name)
 
 
 def difficulty():
@@ -154,12 +154,14 @@ def use_vision_potion(dungeon):
 
     pass
 
-def user_input(dungeon):
+
+def user_input(dungeon, adventurer):
     """This method will allow the user to perform a set of tasks based on the room and
     inventory the adventurer holds:  Move, use healing/vision potion, view inventory, give up"""
     keystroke = input("What would you like to do? Press \"1\" for all options: ")
     # print all options
 
+    player = adventurer
     x, y = dungeon.current_room()
     room = dungeon.room_at(x, y)
     if keystroke == "1":
@@ -177,11 +179,11 @@ def user_input(dungeon):
         # if adventurer.has_vision_potion is True:
         #     options.append("v")
         # View Status
-        print(player)
+        options.append("s")
         options.append("q")
         print(options)
         print_room(dungeon)
-        user_input(dungeon)
+        user_input(dungeon, adventurer)
 
     # quit option
     elif keystroke == "q":
@@ -193,7 +195,7 @@ def user_input(dungeon):
             # press Enter to restart
             restart_game()
         if a == "n":
-            user_input(dungeon)
+            user_input(dungeon, adventurer)
     # move adventurer
     elif keystroke == "u":
         # need to validate if it is possible to move up
@@ -201,34 +203,23 @@ def user_input(dungeon):
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_north_wall() is False:
             dungeon.move_to(x, y - 1)
-        else:
-            print("That is not a valid command.  Try again.")
-            print_room(dungeon)
-            user_input(dungeon)
     elif keystroke == "d":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_south_wall() is False:
             dungeon.move_to(x, y + 1)
-        else:
-            print("That is not a valid command.  Try again.")
-            print_room(dungeon)
-            user_input(dungeon)
     elif keystroke == "l":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_west_wall() is False:
             dungeon.move_to(x - 1, y)
-        else:
-            print("That is not a valid command.  Try again.")
-            print_room(dungeon)
-            user_input(dungeon)
     elif keystroke == "r":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_east_wall() is False:
             dungeon.move_to(x + 1, y)
-        else:
-            print("That is not a valid command.  Try again.")
-            print_room(dungeon)
-            user_input(dungeon)
+
+    elif keystroke == "s":
+        print(player)
+        print_room(dungeon)
+        user_input(dungeon, adventurer)
     # use healing potion
     # elif keystroke == "h":
     #     adventurer.use_healing_potion():
@@ -241,16 +232,16 @@ def user_input(dungeon):
     elif keystroke == "map":
         print(dungeon)
     else:
-        input("That is not a valid command.  Try again. ")
-
+        print("That is not a valid command.  Try again. ")
+        print_room(dungeon)
     # prints new room, then prompts for next user input
-    print_room(dungeon)
+
     # discover_room() # will pick up potion, discover pillar, or hurt you via pit
     # check for pick_up healing potion if....
     # check for pick up vision if...
     # check for pit, hurt if so...
 
-    user_input(dungeon)
+    user_input(dungeon, adventurer)
 
 
 def hidden_menu():
