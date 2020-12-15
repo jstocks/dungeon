@@ -23,6 +23,7 @@ FONT_B = ('Courier New', 18, 'bold')
 FONT = ('Courier New', 18)
 BGB = 'black'
 FGG = 'green'
+FGY = 'yellow'
 BGW = 'white'
 FGB = 'black'
 
@@ -72,7 +73,7 @@ class DungeonAdventure:
             label.image = photo  # avoid garbage collection
 
         def what_is_your_name():
-            self.__player_name = askstring('THE Dungeon OF Doom', 'What is your name?')
+            self.__player_name = askstring('THE Dungeon OF Doom', 'Identify Yourself!!!')
             if self.__player_name is None:
                 showinfo('THE Dungeon OF Doom', "Don't be shy. Name is required to the start the game !!!")
             else:
@@ -80,6 +81,10 @@ class DungeonAdventure:
 
         def how_to():
             messagebox.showinfo("THE Dungeon OF Doom", HOWTOPLAY)
+
+        # def player_start():
+        #     showinfo('Level: ' + s)
+        #     self.game_active()
 
         copy_of_image = Image.open("wizard.jpg")
         photo = ImageTk.PhotoImage(copy_of_image)
@@ -92,7 +97,7 @@ class DungeonAdventure:
         center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
         # ---------------- introduction -----------------
-        Label(center_frame, text=INTRO, width=60, bg=BGB, fg=FGG).pack()
+        Label(center_frame, text=INTRO, width=60, bg=BGB, fg=FGY).pack()
 
         # ------------- buttons --------------------
         bottom_frame = Frame(tk)
@@ -106,11 +111,6 @@ class DungeonAdventure:
 
         # ------------ After get the play name, start the game -------------------------
         if self.__player_name != '':
-            #
-            # label = Label(frame, image=photo)
-            # label.place(x=0, y=0, relwidth=1, relheight=1)
-            # label.bind('<Configure>', resize_image)
-
             # ------------ Create Gid --------------
             center_frame.pack_forget()
             copy_of_image = Image.open("Maze.jpg")
@@ -123,23 +123,46 @@ class DungeonAdventure:
             center_frame = Frame(frame, relief='raised', borderwidth=5, bg=BGB, width=80)
             center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
-            # center_frame = Frame(frame, relief='raised', borderwidth=8, bg=BGB, width=80)
-            # center_frame.place(relx=.5, rely=.5, anchor=CENTER)
-
             # next_get_level()
-            Label(center_frame, text=self.__player_name, bg=BGB, fg=FGG, font=FONT).pack()
-            Label(center_frame, text="You are about to enter THE DUNGEON OF DOOM.", bg=BGB, fg=FGG, font=FONT).pack()
-            Label(center_frame, text="Select a difficulty from 1 (Easy) to 5 (Hard)", bg=BGB, fg=FGG, font=FONT).pack()
+            Label(center_frame, text=self.__player_name, bg=BGB, fg=FGY, font=FONT).pack()
+            Label(center_frame, text="You are about to enter THE DUNGEON OF DOOM.", bg=BGB, fg=FGY, font=FONT).pack()
+            Label(center_frame, text="Select a difficulty from 1 (Easy) to 5 (Hard)", bg=BGB, fg=FGY, font=FONT).pack()
             Label(center_frame, bg=BGB).pack()
             # ------------ Get player input data ------------------
             player_input = Entry(center_frame, bg=BGW, fg=FGB, width=10)
             player_input.pack()
-
-            btn_start = Button(center_frame, text='GO', bg=BGW, fg=FGB, font=FONT_B, command=start_game)
+            Label(center_frame, bg=BGB).pack()
+            btn_start = Button(center_frame, text='GO', bg=BGW, fg=FGB, font=FONT_B)
             btn_start.pack(side=BOTTOM)
 
+            howto_button = Button(frame, text="How to play...", bg=BGB, font=FONT, command=how_to)
+            howto_button.pack(side=BOTTOM)
 
             # ---------- Create Maze ---------------
+            # center_frame.pack_forget()
+            # copy_of_image = Image.open("Stand.jpg")
+            # photo = ImageTk.PhotoImage(copy_of_image)
+            #
+            # label = Label(frame, image=photo)
+            # label.place(x=0, y=0, relwidth=1, relheight=1)
+            # label.bind('<Configure>', resize_image)
+            #
+            # center_frame = Frame(frame, relief='raised', borderwidth=5, bg=BGB, width=80)
+            # center_frame.place(relx=.5, rely=.5, anchor=CENTER)
+            #
+            # maze = Dungeon(5, 5, 0, 0)
+            # if player_input == 1:
+            #     maze = Dungeon(5, 5, 0, 0)
+            # if player_input == 2:
+            #     maze = Dungeon(6, 6, 0, 0)
+            # if player_input == 3:
+            #     maze = Dungeon(7, 7, 0, 0)
+            # if player_input == 4:
+            #     maze = Dungeon(8, 8, 0, 0)
+            # if player_input == 5:
+            #     maze = Dungeon(10, 10, 0, 0)
+            # Label(center_frame, text=maze, width=60, bg=BGB, font=FONT_B).pack()
+
             # maze = Dungeon(5, 5, 0, 0)
             # Label(center_frame, text=maze, width=60, bg='yellow', font=("Courier New", 12)).pack()
             #
