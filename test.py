@@ -9,45 +9,30 @@ from tkinter.messagebox import showinfo
 from dungeon import Dungeon
 
 tk = Tk()
-tk.geometry('600x700')
+tk.geometry('650x700')
 tk.title("THE Dungeon OF Doom by Jeff-Dee-Kishan")
+
 frame = Frame(tk, relief='raised', borderwidth=2)
 frame.pack(fill=BOTH, expand=YES)
 frame.pack_propagate(False)
 
+# center_frame = Frame(frame, relief='raised', borderwidth=2)
+# center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
-class DungeonAdventure:
+FONT_B = ('Courier New', 18, 'bold')
+FONT = ('Courier New', 18)
+BGB = 'black'
+FGG = 'green'
+BGW = 'white'
+FGB = 'black'
 
-    def __init__(self):
-        self.__user_name = ''
-        self.__active = True
-        self.game_active()
+INTRO = "\n Welcome to the Dungeon of Doom!  Prepare for the most difficult\n" \
+                "challenge of your adventure-seeking life.  Check your pride at the door,\n" \
+                "and bring an extra ounce of courage as you face off against countless\n" \
+                "pits and race against your own agony to capture the elusive.......\n" \
+                "*****  Four Pillars of Object-Oriented Programming *****\n"
 
-    def user_name(self):
-        return self.__user_name
-
-    def playing(self):
-
-        def resize_image(event):
-            new_width = event.width
-            new_height = event.height
-
-            image = copy_of_image.resize((new_width, new_height))
-            photo = ImageTk.PhotoImage(image)
-
-            label.config(image=photo)
-            label.image = photo  # avoid garbage collection
-
-        def what_is_your_name():
-            self.__user_name = askstring('THE Dungeon OF Doom', 'What is your name?')
-            if self.__user_name is None:
-                showinfo('THE Dungeon OF Doom', "Don't be shy. Name is required to the start the game !!!")
-            else:
-                showinfo('THE Dungeon OF Doom', 'Hello, {}. Welcome to THE DUNGEON OF DOOM'.format(self.__user_name))
-            self.game_active()
-
-        def how_to():
-            how = "The goal of this game is to escape the dungeon maze after finding the\n" \
+HOWTOPLAY = "The goal of this game is to escape the dungeon maze after finding the\n" \
                   "four pillars:\n" \
                   "   1: Abstraction\n" \
                   "   2: Encapsulation\n" \
@@ -62,13 +47,39 @@ class DungeonAdventure:
                   "You can only move through the doors that exist in the dungeon.\n\n" \
                   "Be strong in your journey...\n\"Even death is not to be feared by one who " \
                   "has lived wisely\" --- Buddha\n"
-            messagebox.showinfo("THE Dungeon OF Doom", how)
 
-        intro = "Welcome to the Dungeon of Doom!  Prepare for the most difficult\n" \
-                "challenge of your adventure-seeking life.  Check your pride at the door,\n" \
-                "and bring an extra ounce of courage as you face off against countless\n" \
-                "pits and race against your own agony to capture the elusive.......\n" \
-                "*****  Four Pillars of Object-Oriented Programming *****"
+
+class DungeonAdventure:
+
+    def __init__(self):
+        self.__player_name = ''
+        self.__active = True
+        self.game_active()
+
+    def user_name(self):
+        return self.__player_name
+
+    def playing(self):
+
+        def resize_image(event):
+            new_width = event.width
+            new_height = event.height
+
+            image = copy_of_image.resize((new_width, new_height))
+            photo = ImageTk.PhotoImage(image)
+
+            label.config(image=photo)
+            label.image = photo  # avoid garbage collection
+
+        def what_is_your_name():
+            self.__player_name = askstring('THE Dungeon OF Doom', 'What is your name?')
+            if self.__player_name is None:
+                showinfo('THE Dungeon OF Doom', "Don't be shy. Name is required to the start the game !!!")
+            else:
+                self.game_active()
+
+        def how_to():
+            messagebox.showinfo("THE Dungeon OF Doom", HOWTOPLAY)
 
         copy_of_image = Image.open("wizard.jpg")
         photo = ImageTk.PhotoImage(copy_of_image)
@@ -77,36 +88,65 @@ class DungeonAdventure:
         label.place(x=0, y=0, relwidth=1, relheight=1)
         label.bind('<Configure>', resize_image)
 
-        center_frame = Frame(frame, relief='raised', borderwidth=2)
+        center_frame = Frame(frame, relief='raised', borderwidth=8, bg=BGB, width=80)
         center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
         # ---------------- introduction -----------------
-        Label(center_frame, text=intro, width=60).pack()
-        # ------------- button - -------------------
+        Label(center_frame, text=INTRO, width=60, bg=BGB, fg=FGG).pack()
+
+        # ------------- buttons --------------------
         bottom_frame = Frame(tk)
         bottom_frame.pack(side=BOTTOM)
-        start_button = Button(center_frame, text="Let's the game begin...", bg='blue', command=what_is_your_name)
+        start_button = Button(center_frame, text="Let's the game begin...", bg=BGB, font=FONT, command=what_is_your_name)
 
         start_button.pack(side=BOTTOM)
 
-        howto_button = Button(center_frame, text="How to play...", bg='green', command=how_to)
+        howto_button = Button(center_frame, text="How to play...", bg=BGB, font=FONT, command=how_to)
         howto_button.pack(side=BOTTOM)
 
-        if self.__user_name != '':
+        # ------------ After get the play name, start the game -------------------------
+        if self.__player_name != '':
+            #
+            # label = Label(frame, image=photo)
+            # label.place(x=0, y=0, relwidth=1, relheight=1)
+            # label.bind('<Configure>', resize_image)
+
+            # ------------ Create Gid --------------
+            center_frame.pack_forget()
+            copy_of_image = Image.open("Maze.jpg")
+            photo = ImageTk.PhotoImage(copy_of_image)
+
             label = Label(frame, image=photo)
             label.place(x=0, y=0, relwidth=1, relheight=1)
             label.bind('<Configure>', resize_image)
 
-            center_frame = Frame(frame, relief='raised', borderwidth=2)
+            center_frame = Frame(frame, relief='raised', borderwidth=5, bg=BGB, width=80)
             center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
-            maze = Dungeon(5, 5, 0, 0)
-            Label(center_frame, text=maze, width=60, bg='yellow', font=("Courier New", 12)).pack()
+            # center_frame = Frame(frame, relief='raised', borderwidth=8, bg=BGB, width=80)
+            # center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
-            my_box = Entry(center_frame, bg='blue')
-            my_box.pack(side=BOTTOM)
-            bottom_frame = Frame(tk)
-            bottom_frame.pack(side=BOTTOM)
+            # next_get_level()
+            Label(center_frame, text=self.__player_name, bg=BGB, fg=FGG, font=FONT).pack()
+            Label(center_frame, text="You are about to enter THE DUNGEON OF DOOM.", bg=BGB, fg=FGG, font=FONT).pack()
+            Label(center_frame, text="Select a difficulty from 1 (Easy) to 5 (Hard)", bg=BGB, fg=FGG, font=FONT).pack()
+            Label(center_frame, bg=BGB).pack()
+            # ------------ Get player input data ------------------
+            player_input = Entry(center_frame, bg=BGW, fg=FGB, width=10)
+            player_input.pack()
+
+            btn_start = Button(center_frame, text='GO', bg=BGW, fg=FGB, font=FONT_B, command=start_game)
+            btn_start.pack(side=BOTTOM)
+
+
+            # ---------- Create Maze ---------------
+            # maze = Dungeon(5, 5, 0, 0)
+            # Label(center_frame, text=maze, width=60, bg='yellow', font=("Courier New", 12)).pack()
+            #
+            # my_box = Entry(center_frame, bg='blue')
+            # my_box.pack(side=BOTTOM)
+            # bottom_frame = Frame(tk)
+            # bottom_frame.pack(side=BOTTOM)
 
     def game_active(self):
         if self.__active:
