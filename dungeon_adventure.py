@@ -28,6 +28,7 @@ def restart_game():
 def play(dungeon, adventurer):
     """This method holds the logic for playing the game."""
     print_room(dungeon)
+    #scan_room(dungeon, adventurer)
     user_input(dungeon, adventurer)
     hidden_menu()
     # print_dungeon()
@@ -757,6 +758,39 @@ def show_vision_map(dungeon):
     print_seventh_row(x, y)
 
 
+def scan_room(dungeon, adventurer):
+    """
+    Determines if any items in room, and picks up or takes damage
+    """
+    row, col = dungeon.current_room()
+    room = dungeon.room_at(row, col)
+    letter = room.get_letter()
+    if letter != " " or letter != "i" or letter != "o":
+        if letter == "H":
+            adventurer.pick_up_healing_potion()
+            room.set_healing_potion(False)
+        elif letter == "V":
+            adventurer.pick_up_vision_potion()
+            room.set_vision_potion(False)
+        elif letter == "A":
+            adventurer.pick_up_pillar(letter)
+            room.set_pillar_a(False)
+        elif letter == "E":
+            adventurer.pick_up_pillar(letter)
+            room.set_pillar_e(False)
+        elif letter == "I":
+            adventurer.pick_up_pillar(letter)
+            room.set_pillar_i(False)
+        elif letter == "P":
+            adventurer.pick_up_pillar(letter)
+            room.set_pillar_p(False)
+        elif letter == "X":
+            adventurer.fell_into_pit()
+        elif letter == "M":
+            pass # NEED TO WORK ON LOGIC
+
+
+
 def user_input(dungeon, adventurer):
     """This method will allow the user to perform a set of tasks based on the room and
     inventory the adventurer holds:  Move, use healing/vision potion, view inventory, give up"""
@@ -776,10 +810,10 @@ def user_input(dungeon, adventurer):
             options.append("r")
         if dungeon.is_valid_room(x, y) is True and room.has_west_wall() is False:
             options.append("l")
-        # if adventurer.has_healing_potion is > 0:
-        #     options.append("h")
-        # if adventurer.has_vision_potion is True:
-        #     options.append("v")
+        if adventurer.has_healing_potion():
+            options.append("h")
+        if adventurer.has_vision_potion():
+            options.append("v")
         # View Status
         options.append("s")
         options.append("k")
@@ -862,12 +896,12 @@ def user_input(dungeon, adventurer):
               "s = player status\n"
               "q = quit\n")
     # use healing potion
-    # elif keystroke == "h":
-    #     adventurer.use_healing_potion():
-    #
-    # # use vision potion
-    # elif keystroke == "v":
-    #     if adventurer.has_vision_potion():
+    elif keystroke == "h":
+        adventurer.use_healing_potion()
+
+    # use vision potion
+    elif keystroke == "v":
+        adventurer.use_vision_potion()
 
     # hidden menu item to show map
     elif keystroke == "map":
@@ -884,6 +918,7 @@ def user_input(dungeon, adventurer):
 
     print_room(dungeon)
     print("\n")
+    scan_room(dungeon, adventurer)
     user_input(dungeon, adventurer)
 
 

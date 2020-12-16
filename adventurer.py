@@ -26,27 +26,28 @@ class Adventurer:
         healing_potion_amount = random.randint(5, 15)
         self.__healing_potions.append(healing_potion_amount)
         self.__healing_potions.sort()
-        print("Found a Healing Potion! It can restore " + str(healing_potion_amount) + " health points.")
+        print("Found a Healing Potion! It can restore " + str(healing_potion_amount) + " health points.\n")
 
     def pick_up_vision_potion(self):
         self.__vision_potions += 1
-        print("Found a Vision Potion!")
+        print("Found a Vision Potion!\n")
 
     def pick_up_pillar(self, pillar):
-        if pillar == "A":
-            self.__pillar_a = True
-        elif pillar == "E":
-            self.__pillar_e = True
-        elif pillar == "I":
-            self.__pillar_i = True
-        elif pillar == "P":
-            self.__pillar_p = True
-            print("You found pillar " + str(pillar).upper() + "!")
+        if pillar == "A" or pillar == "E" or pillar == "I" or pillar == "P":
+            if pillar == "A":
+                self.__pillar_a = True
+            elif pillar == "E":
+                self.__pillar_e = True
+            elif pillar == "I":
+                self.__pillar_i = True
+            elif pillar == "P":
+                self.__pillar_p = True
+            print("You found pillar " + str(pillar).upper() + "!\n")
         else:
             raise ValueError("A pillar must be A, E, I, or P")
 
     def use_vision_potion(self):  # Not sure just yet how this will work with room
-        print("Used a Vision Potion!")
+        print("Used a Vision Potion!\n")
         pass
 
     def use_healing_potion(self):
@@ -57,17 +58,17 @@ class Adventurer:
         if len(self.__healing_potions) > 0:
             while not condition:
                 # display current health
-                print("\nCurrent health: " + str(self.__health_points))
-                print("Note: Max Health Points is 100")
+                print("Current health: " + str(self.__health_points))
+                print("Note: Max Health Points is 100\n")
                 # display the available healing potions player has
                 print("Healing potion inventory: ")
-                print("Item Number \tPotion strength")
+                print("Item Number \tPotion Strength")
                 for potion in self.__healing_potions:
                     print(str(potion_counter) + ": \t \t \t \t" + str(potion))
                     potion_counter += 1
             # while not condition:
                 # have player select the potion he wants to use
-                potion_to_use = int(input("Select the potion (item number) you would like to use, "
+                potion_to_use = int(input("\nSelect the potion (item number) you would like to use, "
                                           "or enter 0 to cancel: "))
                 if potion_to_use == 0:
                     condition = True
@@ -77,8 +78,8 @@ class Adventurer:
                     healing_amount = self.__healing_potions[potion_to_use - 1]
                     self.change_health_points(healing_amount)
                     del self.__healing_potions[potion_to_use - 1]
-                    print("You just healed " + str(healing_amount) + " health.\nCurrent health is now " +
-                          str(self.__health_points))
+                    print("\nHealed " + str(healing_amount) + " health!\nCurrent health is now " +
+                          str(self.__health_points) + "\n")
                     if self.__health_points == 100:
                         print("You're at full health!")
                     condition = True
@@ -95,9 +96,11 @@ class Adventurer:
     def change_health_points(self, amount):
         if amount < 0:
             self.__health_points += amount
+            print("You fell into a pit! Took " + str(amount) + " damage.\n"
+                                                               "Current health: " + str(self.__health_points))
         else:
             self.__health_points += amount
-            if self.__health_points > 100:  # Do we want max hp to be 100?
+            if self.__health_points > 100:
                 self.__health_points = 100
 
     def fell_into_pit(self):
@@ -112,6 +115,12 @@ class Adventurer:
             return True
         else:
             return False
+
+    def has_healing_potion(self):
+        return len(self.__healing_potions) > 0
+
+    def has_vision_potion(self):
+        return self.__vision_potions > 0
 
     def view_inventory(self):
         print(player)
@@ -132,6 +141,7 @@ class Adventurer:
 #     # print("     Creating and printing out the status of a player named John:")
 #     player = Adventurer("John")
     # print(player)
+    # print(player.has_healing_potion())
     # print("--------------------")
     # print("     Picked up pillar 'A', 'E', and 'I'")
     # player.pick_up_pillar("A")
@@ -148,6 +158,8 @@ class Adventurer:
     # player.use_healing_potion()
     # print("     Picking up 2 healing potions:")
     # player.pick_up_healing_potion()
+    # print(player.has_healing_potion())
+
     # player.pick_up_healing_potion()
     # print("     Inventory:")
     # player.view_inventory()
