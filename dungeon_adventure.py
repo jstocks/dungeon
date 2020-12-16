@@ -10,17 +10,17 @@ and logic for winning game"""
 
 def start_game():
     """This method starts the game.  Provides an introduction and how to play guide.
-    It also kicks off the game with character name and difficulty."""
+    It also kicks off the game with character creation and dungeon / difficulty."""
     intro()
     how_to_play()
-    adventurer = create_adv()
+    adventurer = create_player()
     dungeon = difficulty()
     play(dungeon, adventurer)
 
 
 def restart_game():
     """This method restarts the game without intro / how to play guide."""
-    adventurer = create_adv()
+    adventurer = create_player()
     dungeon = difficulty()
     play(dungeon, adventurer)
 
@@ -65,7 +65,7 @@ def how_to_play():
           "has lived wisely\" --- Buddha\n")
 
 
-def create_adv():
+def create_player():
     """This method asks user for Character Name input. This should reference the
     Adventurer Class"""
     player_name = input("Welcome to the bridge of death... What is your name?: ")
@@ -106,10 +106,11 @@ def difficulty():
 
 
 def print_room(dungeon):
-    # visualize the room here
+    """ prints the dungeon as a visual """
     x, y = dungeon.current_room()
     room = dungeon.room_at(x, y)
 
+    # print top row
     print("*", end='')
     if y == 0:
         print("*", end='')
@@ -120,6 +121,7 @@ def print_room(dungeon):
             print(" ", end='')
     print("*")
 
+    # print middle row
     if x == 0:
         print("*", end='')
     else:  # it's not border
@@ -138,6 +140,7 @@ def print_room(dungeon):
         else:
             print(" ", end='')
 
+    # print third row
     print("")
     print("*", end='')
     if y == dungeon.get_ny():
@@ -149,11 +152,598 @@ def print_room(dungeon):
             print(" ", end='')
     print("*")
 
-def use_vision_potion(dungeon):
-    x, y = dungeon.current_room()
-    room = dungeon.room_at(x, y)
 
-    pass
+def show_vision_map(dungeon):
+    x, y = dungeon.current_room()
+
+    def print_first_row(row, col):
+        if col == 0:
+            print("       ")
+            return
+        if col > 0 and row == 0:
+            print("  *", end='')
+            # move to room 2
+            dungeon.move_to(row, col - 1)  # up one col from initial room
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if col == 0:
+                print("**", end='')
+            elif room.has_north_wall():
+                print("-*", end='')
+            else:
+                print(" *", end='')
+            # room 3 (assuming an array of 3 or more cols)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if col == 0:
+                print("**")
+            elif room.has_north_wall():
+                print("-*")
+            else:
+                print(" *")
+        else:
+            # room 1
+            dungeon.move_to((row - 1), col - 1)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print("*", end='')
+            if col == 0:
+                print("*", end='')
+            elif room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*", end='')
+            # room 2
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if col == 0:
+                print("*", end='')
+            elif room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*", end='')
+            # room 3
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            # case if out of bounds to right
+            if row == dungeon.get_nx():
+                print("  ")
+            else:
+                room = dungeon.room_at(row, col)
+                if col == 0:
+                    print("*", end='')
+                elif room.has_north_wall():
+                    print("-", end='')
+                else:
+                    print(" ", end='')
+                print("*")
+
+    def print_second_row(row, col):
+        if col == 0:
+            print("       ")
+            return
+        if col > 0 and row == 0:
+            print("  *", end='')
+            # move to room 2, up from initial room
+            dungeon.move_to(row, col - 1)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 3 (assuming an array of more than 3 cols)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='') #
+            if row == dungeon.get_nx():
+                print("*")
+            elif room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+        else:
+            # room 1
+            dungeon.move_to((row - 1), col - 1)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+
+            if row == 0:  # edge of dungeon - doesn't work for some reason
+                print("*", end='')
+            elif room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 2
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            temp = int(dungeon.get_nx())
+            if row == temp - 1:
+                print("*", end='')
+            elif room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 3
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            # case if out of bounds to right
+            if row == dungeon.get_nx():
+                print("  ")
+            else:
+                room = dungeon.room_at(row, col)
+                print(room.get_letter(), end='')
+                a = int(dungeon.get_nx())
+                if row == a - 1:
+                    print("*")
+                elif room.has_east_wall():
+                    print("|")
+                else:
+                    print(" ")
+
+    def print_third_row(row, col):
+        if row == 0 and col == 0:
+            # top left corner
+            print("  *****")
+        elif col == 0 and row > 0:
+            # top row excluding left corner
+            print("*****", end='')
+            # move to right room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            # if room doesn't exist
+            if row == dungeon.get_nx():
+                print("  ")
+            else:
+                print("**")
+        elif col > 0 and row == 0:
+            # first column
+            print("  *", end='')
+            # room 2
+            # row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_north_wall():  # error?
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*", end='')
+            # room 3 (assuming an array of 3 or more cols)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*")
+        else:
+            # room 1 (move left 1 room)
+            dungeon.move_to((row - 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print("*", end='')
+            if col == 0:
+                print("*", end='')
+            elif room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*", end='')
+            # room 2 (was the initial room)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+            print("*", end='')
+            # room 3
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            # case if out of bounds to right
+            if row == dungeon.get_nx():
+                print("  ")
+            else:
+                room = dungeon.room_at(row, col)
+                if room.has_north_wall():
+                    print("-", end='')
+                else:
+                    print(" ", end='')
+                print("*")
+
+    def print_fourth_row(row, col):
+        # top left corner
+        if col == 0 and row == 0:
+            # first room
+            print("  *", end='')
+            # second room
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # third room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+        elif col > 0 and row == 0:  # (west dungeon border) assume array >= than 3
+            print("  *", end='')
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+        else:  # room not at row 0 (east dungeon border)
+            # room 1 to left
+            dungeon.move_to((row - 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if row == 0:  # edge of dungeon - doesn't work for some reason
+                print("*", end='')
+            elif room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 2 (initial room)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            temp = int(dungeon.get_nx())
+            if row == temp - 1:
+                print("*", end='')
+            elif room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 3 (right room)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            #temp = int(dungeon.get_nx())
+            if row == dungeon.get_nx():
+                print("  ")
+
+            else:
+                room = dungeon.room_at(row, col)
+                print(room.get_letter(), end='')
+                temp = int(dungeon.get_nx())
+                if row == temp - 1:
+                    print("*")
+                elif room.has_east_wall():
+                    print("|")
+                else:
+                    print(" ")
+
+    def print_fifth_row(row, col):
+        # temp = int(dungeon.get_ny())
+        # room at bottom left corner
+        if row == 0 and col == int(dungeon.get_ny()) - 1:
+            print("  *****")
+        # room at bottom right corner
+        elif row == (int(dungeon.get_nx()) - 1) and col == (int(dungeon.get_ny()) - 1):
+            print("*****  ")
+        # room on bottom row
+        elif col == (int(dungeon.get_ny()) - 1):
+            print("*******")
+        else:
+            # room bordering west dungeon border
+            if row == 0:
+                print("  *", end='')
+                # row, col = dungeon.current_room()  # bug fix hash?
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():  # bug?
+                    print("-*", end='')
+                else:
+                    print(" *", end='')
+                dungeon.move_to((row + 1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*")
+                else:
+                    print(" *")
+            # room bordering east dungeon border
+            elif row == int(dungeon.get_nx() - 1):
+                print("*", end='')
+                # first room (to left)
+                dungeon.move_to((row -1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*", end='')
+                else:
+                    print(" *", end='')
+                dungeon.move_to((row + 1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*", end='')
+                else:
+                    print(" *", end='')
+                print("  ")
+            else:
+                # no dungeon borders
+                print("*", end='')
+                # first room (to left)
+                dungeon.move_to((row - 1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*", end='')
+                else:
+                    print(" *", end='')
+                dungeon.move_to((row + 1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*", end='')
+                else:
+                    print(" *", end='')
+                dungeon.move_to((row + 1), col)
+                row, col = dungeon.current_room()
+                room = dungeon.room_at(row, col)
+                if room.has_south_wall():
+                    print("-*")
+                else:
+                    print(" *")
+
+    def print_sixth_row(row, col):
+        # room on bottom row
+        if col == (int(dungeon.get_ny()) - 1):
+            print("       ")
+        # room on west dungeon border
+        elif row == 0:  # assumes array larger than 3
+            print("  *", end='')
+            # move down a room
+            dungeon.move_to(row, (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # move right a room
+            dungeon.move_to(row + 1, col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ")
+
+        elif row == 1:  # assumes array larger than 3
+            print("*", end='')
+            # room 1 move down, to left
+            dungeon.move_to((row - 1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 2 move right a room
+            dungeon.move_to(row + 1, col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # room 3 move right a room
+            dungeon.move_to(row + 1, col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+            # room bordering east dungeon border
+        elif row == int(dungeon.get_nx() - 1):
+            # first room (down one, left one)
+            dungeon.move_to((row -1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            print("*  ")
+        # second from last row, shows east dungeon border
+        elif row == int(dungeon.get_nx() - 2):
+            # first room (down one, left one)
+            dungeon.move_to((row -1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            # second room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # third room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            print("*")
+
+        else:
+            # middle rooms
+            # first room (down one, left one)
+            dungeon.move_to((row - 1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            # second room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+            # third room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            print(room.get_letter(), end='')
+            if room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+
+    def print_seventh_row(row, col):
+        orig_x = row
+        orig_y = col
+        # room on bottom row
+        if col == (int(dungeon.get_ny()) - 1):
+            print("       ")
+        # print dungeon border
+        elif col == (int(dungeon.get_ny()) - 2) and row == 0:
+            print("  *****")
+        elif col == (int(dungeon.get_ny()) - 2) and row == (int(dungeon.get_nx()) -1):
+            print("*****  ")
+        elif row == 0:
+            print("  *", end='')
+            # first room (down one)
+            dungeon.move_to(row, (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*", end='')
+            else:
+                print(" *", end='')
+            # second room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*")
+            else:
+                print(" *")
+        elif row == (int(dungeon.get_nx()) -1):
+            print("*", end='')
+            # first room (down one, left one)
+            dungeon.move_to((row - 1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*", end='')
+            else:
+                print(" *", end='')
+            # second room (room to the right)
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*  ")
+            else:
+                print(" *  ")
+        else:
+            (print("*", end=''))
+            # first room (down one, left one)
+            dungeon.move_to((row - 1), (col + 1))
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*", end='')
+            else:
+                print(" *", end='')
+            # second room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*", end='')
+            else:
+                print(" *", end='')
+            # third room
+            dungeon.move_to((row + 1), col)
+            row, col = dungeon.current_room()
+            room = dungeon.room_at(row, col)
+            if room.has_south_wall():
+                print("-*")
+            else:
+                print(" *")
+
+        dungeon.move_to(orig_x, orig_y)
+
+    print_first_row(x, y)
+    print_second_row(x, y)
+    print_third_row(x, y)
+    print_fourth_row(x, y)
+    print_fifth_row(x, y)
+    print_sixth_row(x, y)
+    print_seventh_row(x, y)
 
 
 def user_input(dungeon, adventurer):
@@ -244,10 +834,12 @@ def user_input(dungeon, adventurer):
     # hidden menu item to show map
     elif keystroke == "map":
         print(dungeon)
+    elif keystroke == "vision":
+        show_vision_map(dungeon)
     else:
         print("That is not a valid command.  Try again. ")
-        print_room(dungeon)
-    # prints new room, then prompts for next user input
+
+
 
     # discover_room() # will pick up potion, discover pillar, or hurt you via pit
     # check for pick_up healing potion if....
@@ -265,9 +857,8 @@ def hidden_menu():
     pass
 
 
-def print_dungeon():
-    """This method prints the entire dungeon; to be used in hidden menu or at end of game"""
-    pass
+def print_dungeon(dungeon):
+    print(dungeon)
 
 
 def game_over(dungeon):
