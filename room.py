@@ -1,4 +1,5 @@
-"""excerpts taken from https://github.com/scipython/scipython-maths/blob/master/maze/df_maze.py"""
+"""room creation inspired by https://github.com/scipython/scipython-maths/blob/
+master/maze/df_maze.py"""
 
 
 class Room:
@@ -123,18 +124,23 @@ class Room:
         self.__entrance = add_entrance
 
     def set_visited(self, add_visited):
+        """setter for visited room, used for maze creation"""
         self.__visited = add_visited
 
     def reset_visited(self):
+        """setter for visited"""
         self.__visited = False
 
     def is_visited(self):
+        """getter for visited"""
         return self.__visited is True
 
     def is_multiple_item(self):
+        """getter for M if room has multiple items"""
         return self.__item_count > 1
 
     def has_a_pillar(self):
+        """getter for if a room contains a pillar"""
         if self.__pillar_a or self.__pillar_e or self.__pillar_i or self.__pillar_p:
             return True
         else:
@@ -154,22 +160,24 @@ class Room:
             + "Impassable: " + str(self.__impassable) + "\n" \
             + "Visited: " + str(self.__visited)
 
-###############################################################################
-
     def has_all_walls(self):
         """returns True if Room has all 4 walls"""
         return all(self.walls.values())
 
     def has_north_wall(self):
+        """getter for north wall"""
         return self.walls["N"]
 
     def has_south_wall(self):
+        """getter for south wall"""
         return self.walls["S"]
 
     def has_east_wall(self):
+        """getter for east wall"""
         return self.walls["E"]
 
     def has_west_wall(self):
+        """getter for west wall"""
         return self.walls["W"]
 
     def connect(self, other, wall):
@@ -178,6 +186,7 @@ class Room:
         other.walls[Room.wall_pairs[wall]] = False
 
     def get_letter(self):
+        """getters for dungeon representation"""
         if self.__entrance:
             return "i"
         if self.__exit:

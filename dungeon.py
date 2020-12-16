@@ -1,4 +1,4 @@
-""" excerpts taken from https://github.com/scipython/scipython-maths/blob/
+""" maze creation inspired by https://github.com/scipython/scipython-maths/blob/
 master/maze/df_maze.py"""
 
 from room import Room
@@ -193,7 +193,7 @@ class Dungeon:
             return self.place_pillar_p()
         self.__maze[x][y].set_pillar_p(True)
 
-    def place_pits(self, probability=0.15):
+    def place_pits(self, probability=0.1):
         """set pits in dungeon, can't be in same room as entrance, exit"""
         number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
         for i in range(number):
@@ -205,7 +205,7 @@ class Dungeon:
             else:
                 self.__maze[x][y].set_pit(True)
 
-    def place_healing(self, probability=0.08):
+    def place_healing(self, probability=0.1):
         """set healing in dungeon; can't be in entrance, exit"""
         number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
         for i in range(number):
@@ -217,7 +217,7 @@ class Dungeon:
             else:
                 self.__maze[x][y].set_healing_potion(True)
 
-    def place_vision(self, probability=0.05):
+    def place_vision(self, probability=0.1):
         """set vision potion in dungeon, can't be in entrance or exit"""
         number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
         for i in range(number):
@@ -333,22 +333,3 @@ class Dungeon:
                 print(self.__maze[row][col].__str__())
             print()
 
-# #
-# maze1 = Dungeon(10, 10, 0, 0)
-# print("initial matrix")
-# print(maze1)
-# maze1.make_dungeon()
-# print("\n\ncreate maze")
-# print(maze1)
-# print("\n\nPlace Items")
-# maze1.place_dungeon_items()
-# print(maze1)
-
-# print(maze1)
-# print("Traverse is: ", maze1.traverse())
-# print("Entrance: " + str(maze1.entrance_room()))
-# print("Exit: " + str(maze1.exit_room()))
-# print("Pillar A: " + str(maze1.pillar_a_room()))
-# print("Pillar E: " + str(maze1.pillar_e_room()))
-# print("Pillar I: " + str(maze1.pillar_i_room()))
-# print("Pillar P: " + str(maze1.pillar_p_room()))

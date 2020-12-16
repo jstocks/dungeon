@@ -7,6 +7,8 @@ from room import Room
 adventurer and dungeon through respective classes, controls user input/options,
 and logic for winning game"""
 
+"""Hidden menu items can be accessed when asked for input: 'vision' and 'map'  """
+
 
 def start_game():
     """This method starts the game.  Provides an introduction and how to play guide.
@@ -836,9 +838,9 @@ def user_input(dungeon, adventurer):
         a = input("Temptation to quit is the greatest just before you are about "
                   "to succeed.\n\nDo you really want to give up? (y or n): ")
         if a == "y":
-            print("\nThere is a difference between giving up and knowing when you had enough.\n\n"
-                  "Better luck next time.  Game over.\n")
-            input("Press Enter to restart or exit the game.")
+            print("\nThere is a difference between giving up and knowing when\n\n"
+                  "you had enough.  Better luck next time.  Game over.\n")
+            input("Press Enter to restart, or exit the game and go cry.")
             restart_game()
         elif a == "n":
             print("\nYou just can't beat the person who won't give up...\n")
@@ -910,10 +912,12 @@ def user_input(dungeon, adventurer):
     # use vision potion
     elif keystroke == "v":
         adventurer.use_vision_potion()
+        show_vision_map(dungeon)
 
     # hidden menu item to show map
     elif keystroke == "map":
         print(dungeon)
+    # hidden menu item to show map
     elif keystroke == "vision":
         show_vision_map(dungeon)
     else:
@@ -942,10 +946,10 @@ def game_over(dungeon, adventurer):
         roll_credits()
         input("Press Enter to restart game...")
         restart_game()
-    x, y = dungeon.current_room()
-    room = dungeon.room_at(x, y)
+    # x, y = dungeon.current_room()
+    # room = dungeon.room_at(x, y)
     if dungeon.exit_room() == dungeon.current_room() and adventurer.all_pillars_found():
-        print("Horace Mann once said, \"Be ashamed to die until you have "
+        print("Horace Mann once said, \"Be ashamed to die until you have \n"
               "won some victory for humanity.\"  And today, you won!\n\n"
               "Congratulations!  You defeated the Dungeon of Doom!\n")
         print(dungeon)

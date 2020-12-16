@@ -2,6 +2,8 @@ import random
 
 
 class Adventurer:
+    """class creates an instance of an adventurer and holds attributes for
+    inventory items and health points"""
     def __init__(self, name):
         self.__name = name
         self.__health_points = random.randint(75, 100)
@@ -14,25 +16,31 @@ class Adventurer:
         self.__alive = True
 
     def get_player_name(self):
+        """getter for player name"""
         return self.__name
 
     def set_player_name(self, player):
+        """setter for player name"""
         self.__name = player
 
     def is_alive(self):
+        """method to check for a heart beat"""
         return self.__alive
 
     def pick_up_healing_potion(self):
+        """ picks up healing potion and adds it to inventory"""
         healing_potion_amount = random.randint(5, 15)
         self.__healing_potions.append(healing_potion_amount)
         self.__healing_potions.sort()
         print("Found a Healing Potion! It can restore " + str(healing_potion_amount) + " health points.\n")
 
     def pick_up_vision_potion(self):
+        """ adds vision potion to inventory"""
         self.__vision_potions += 1
         print("Found a Vision Potion!\n")
 
     def pick_up_pillar(self, pillar):
+        """adds a pillar to adventurer's inventory"""
         if pillar == "A" or pillar == "E" or pillar == "I" or pillar == "P":
             if pillar == "A":
                 self.__pillar_a = True
@@ -46,11 +54,12 @@ class Adventurer:
         else:
             raise ValueError("A pillar must be A, E, I, or P")
 
-    def use_vision_potion(self):  # Not sure just yet how this will work with room
+    def use_vision_potion(self):
         print("Used a Vision Potion!\n")
-        pass
 
     def use_healing_potion(self):
+        """checks if you have healing potion, then provides a menu to select
+        which healing potion you want to use, if you have multiple"""
         # make a condition to keep asking user to enter proper input
         condition = False
         # check if player has any potions he can use
@@ -94,32 +103,38 @@ class Adventurer:
             print("You don't have any healing potions!")
 
     def change_health_points(self, amount):
+        """modifies health points of adventurer if you fall into a pit with
+        randomly generated value"""
         if amount < 0:
             self.__health_points += amount
+            if self.__health_points < 0:
+                self.__health_points = 0
             print("You fell into a pit! Took " + str(amount) + " damage.\n"
-                                                               "Current health: " + str(self.__health_points))
+                  "Current health: " + str(self.__health_points))
         else:
             self.__health_points += amount
             if self.__health_points > 100:
                 self.__health_points = 100
 
     def fell_into_pit(self):
+        """sets the damage taken from falling into a pit, and checks for a
+        heartbeat after you land"""
         damage = random.randint(-20, -1)
-        self.change_health_points(damage)  # Must determine how much damage a pit does
+        self.change_health_points(damage)
         if self.__health_points <= 0:
             self.__alive = False
 
     def all_pillars_found(self):
+        """getter for determining if you can win the gam upon exit"""
         return self.__pillar_a and self.__pillar_i and self.__pillar_e and self.__pillar_p
 
     def has_healing_potion(self):
+        """getter for ability to use healing potions"""
         return len(self.__healing_potions) > 0
 
     def has_vision_potion(self):
+        """getter for ability to use vision potions"""
         return self.__vision_potions > 0
-
-    def view_inventory(self):
-        print(player)
 
     def __str__(self):
         return self.__name + ":\n" \
@@ -131,58 +146,3 @@ class Adventurer:
                "E:\t{}\n" \
                "I:\t{}\n" \
                "P:\t{}\n".format(self.__pillar_a, self.__pillar_e, self.__pillar_i, self.__pillar_p)
-
-
-# if __name__ == '__main__':
-#     # print("     Creating and printing out the status of a player named John:")
-#     player = Adventurer("John")
-    # print(player)
-    # print(player.has_healing_potion())
-    # print("--------------------")
-    # print("     Picked up pillar 'A', 'E', and 'I'")
-    # player.pick_up_pillar("A")
-    # player.pick_up_pillar("E")
-    # player.pick_up_pillar("I")
-    # print("     Does player has all 4 pillars?:")
-    # print(player.all_pillars_found())
-    # print("     Players picks up the 4th pillar, 'P'")
-    # player.pick_up_pillar("P")
-    # print("     Does player has all 4 pillars?:")
-    # print(player.all_pillars_found())
-
-    # print("     Using a healing potion when you don't have any:")
-    # player.use_healing_potion()
-    # print("     Picking up 2 healing potions:")
-    # player.pick_up_healing_potion()
-    # print(player.has_healing_potion())
-
-    # player.pick_up_healing_potion()
-    # print("     Inventory:")
-    # player.view_inventory()
-    # print("     Use healing potion:")
-    # player.use_healing_potion()
-    # player.view_inventory()
-    # # print("     print player hp:")
-    # # print(player.hp)
-    # # print("     print number of healing potions:")
-    # # print(player.healing_potions)
-    # # print("--------------------")
-    # # print(player)
-    #
-    # # print("     \nTAKING DAMAGE UNTIL PLAYER IS DEAD:")
-    # # print("     Fell into pit:")
-    # # player.fell_into_pit()
-    # # print("Current HP:" + str(player.hp))
-    # # print("     Fell into pit:")
-    # # player.fell_into_pit()
-    # # print("Current HP:" + str(player.hp))
-    # # print("     Fell into pit:")
-    # # player.fell_into_pit()
-    # # print("Current HP:" + str(player.hp))
-    # # print("     Fell into pit:")
-    # # player.fell_into_pit()
-    # # print("Current HP:" + str(player.hp))
-    # # print("     Fell into pit:")
-    # # player.fell_into_pit()
-    # # print("Current HP:" + str(player.hp))
-    # #
