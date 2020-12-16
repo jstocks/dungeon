@@ -108,49 +108,60 @@ def difficulty():
 def print_room(dungeon):
     """ prints the dungeon as a visual """
     x, y = dungeon.current_room()
-    room = dungeon.room_at(x, y)
 
-    # print top row
-    print("*", end='')
-    if y == 0:
+    def print_top_row(row, col):
+        # print top row
+        room = dungeon.room_at(row, col)
+
         print("*", end='')
-    else:  # it's not border
-        if room.has_north_wall():
-            print("-", end='')
-        else:
-            print(" ", end='')
-    print("*")
+        if col == 0:
+            print("*", end='')
+        else:  # it's not border
+            if room.has_north_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+        print("*")
 
-    # print middle row
-    if x == 0:
+    def print_mid_row(row, col):
+        # print middle row
+        room = dungeon.room_at(row, col)
+
+        if row == 0:
+            print("*", end='')
+        else:  # it's not border
+            if room.has_west_wall():
+                print("|", end='')
+            else:
+                print(" ", end='')
+
+        print(room.get_letter(), end='')
+
+        if row == int(dungeon.get_nx() - 1):
+            print("*")
+        else:  # it's not border
+            if room.has_east_wall():
+                print("|")
+            else:
+                print(" ")
+
+    def print_bot_row(row, col):
+        # print third row
+        room = dungeon.room_at(row, col)
+
         print("*", end='')
-    else:  # it's not border
-        if room.has_west_wall():
-            print("|", end='')
+        if col == (int(dungeon.get_ny()) - 1):
+            print("*", end='')
         else:
-            print(" ", end='')
+            if room.has_south_wall():
+                print("-", end='')
+            else:
+                print(" ", end='')
+        print("*")
 
-    print(room.get_letter(), end='')
-
-    if x == dungeon.get_nx():
-        print("*", end='')
-    else:  # it's not border
-        if room.has_east_wall():
-            print("|", end='')
-        else:
-            print(" ", end='')
-
-    # print third row
-    print("")
-    print("*", end='')
-    if y == dungeon.get_ny():
-        print("*", end='')
-    else:
-        if room.has_south_wall():
-            print("-", end='')
-        else:
-            print(" ", end='')
-    print("*")
+    print_top_row(x, y)
+    print_mid_row(x, y)
+    print_bot_row(x, y)
 
 
 def show_vision_map(dungeon):
