@@ -765,7 +765,7 @@ def scan_room(dungeon, adventurer):
     row, col = dungeon.current_room()
     room = dungeon.room_at(row, col)
     letter = room.get_letter()
-    if letter != " " or letter != "i" or letter != "o":
+    if letter != " " or letter != "i":
         if letter == "H":
             adventurer.pick_up_healing_potion()
             room.set_healing_potion(False)
