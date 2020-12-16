@@ -55,7 +55,9 @@ class Adventurer:
             raise ValueError("A pillar must be A, E, I, or P")
 
     def use_vision_potion(self):
+        self.__vision_potions -= 1
         print("Used a Vision Potion!\n")
+
 
     def use_healing_potion(self):
         """checks if you have healing potion, then provides a menu to select
@@ -95,10 +97,6 @@ class Adventurer:
                 else:
                     print("\nThat's not a proper selection!")
 
-            # self.change_hp(25)  # Must decide how much health healing potion recovers
-            # self.healing_potions -= 1
-            # print("Used a healing potion!\n"
-            #       "Current HP: " + str(self.health_points))
         else:
             print("You don't have any healing potions!")
 

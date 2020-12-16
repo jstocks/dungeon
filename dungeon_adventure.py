@@ -1,6 +1,6 @@
 from adventurer import Adventurer
 from dungeon import Dungeon
-from room import Room
+import webbrowser
 
 
 """DungeonAdventure holds the logic of playing the game.  Re/starts game, creates
@@ -45,7 +45,7 @@ def how_to_play():
     """This method describes the goal of the game, how to win, and the objects
     encountered during the game"""
     print("The goal of this game is to escape the dungeon maze after finding the\n"
-          "four pillars:\n"
+          "four oh-so-glorious pillars:\n\n"
           "   1: Abstraction\n"
           "   2: Encapsulation\n"
           "   3: Inheritance\n"
@@ -57,8 +57,9 @@ def how_to_play():
           "collect all Four Pillars of OO, the exit door will unlock --- if you reach\n"
           "the exit before your HP reaches a big fat zero, you win!\n\n"
           "Move throughout the map by typing \'u\', \'d\', \'l\', or \'r\'\n"
-          "You can only move through the doors that exist in the dungeon.\n\n"
-          "Check the status of your adventurer by typing \'s\'.\n\n"
+          "Don't bang your head against the walls \'|\' and \'-\'in the dungeon.\n\n"
+          "Check the status of your adventurer by typing \'s\'.\n"
+          "Check the map legend and user inputs by typing \'k\'.\n\n"
           "Be strong in your journey...\n\"Even death is not to be feared by one who "
           "has lived wisely\" --- Buddha\n")
 
@@ -74,31 +75,38 @@ def difficulty():
     """This method will define the size of the dungeon array.  1 = 3x3, 2 = 5x5, 3 = 6x6"""
     low = 1
     high = 5
-    level = int(input("What is your quest? Enter a difficulty from 1 (Easy) to 5 (Hard): "))
-    if low <= level <= high:
-        # create dungeon by array size based on level input
-        if level == 1:
-            nx, ny = 3, 3
-        if level == 2:
-            nx, ny = 4, 4
-        if level == 3:
-            nx, ny = 5, 5
-        if level == 4:
-            nx, ny = 8, 8
-        if level == 5:
-            nx, ny = 10, 10
-        ix, iy = 0, 0
-        game_board = Dungeon(nx, ny, ix, iy)
-        game_board.make_dungeon()
-        game_board.place_dungeon_items()
-        while game_board.traverse() is not True:
+    try:
+        level = int(input("What is your quest? Enter a difficulty from 1 (Easy) to 5 (Hard): "))
+        if low <= level <= high:
+            # create dungeon by array size based on level input
+            if level == 1:
+                nx, ny = 3, 3
+            if level == 2:
+                nx, ny = 4, 4
+            if level == 3:
+                nx, ny = 5, 5
+            if level == 4:
+                nx, ny = 8, 8
+            if level == 5:
+                nx, ny = 10, 10
+            ix, iy = 0, 0
+            game_board = Dungeon(nx, ny, ix, iy)
             game_board.make_dungeon()
             game_board.place_dungeon_items()
-        print_room(game_board)
-        return game_board
-    else:
-        print("\n\"Ahhhhhhhhhhhhh\" (That's the sound of you being thrown into "
-              "the gorge because you didn't enter an integer between 1-5.)  Game over.\n")
+            while game_board.traverse() is not True:
+                game_board.make_dungeon()
+                game_board.place_dungeon_items()
+            print_room(game_board)
+            return game_board
+        else:
+            print("\n\"Ahhhhhhhhhhhhh\" (That's the sound of you being thrown into\n"
+                  "the gorge because you didn't enter an integer between 1-5.)\n\n"
+                  "***GAME OVER***\n")
+            input("Press Enter to restart game...")
+            restart_game()
+    except ValueError:
+        print("\n\"Ahhhhhhhhhhhhh\" (That's the sound of you being thrown into\n"
+              "the gorge because you don't know your numbers.)\n\n***GAME OVER***\n")
         input("Press Enter to restart game...")
         restart_game()
 
@@ -830,7 +838,6 @@ def user_input(dungeon, adventurer):
         options.append("q")
         print(options)
         print_room(dungeon)
-        print("\n")
         user_input(dungeon, adventurer)
 
     # quit option
@@ -838,9 +845,9 @@ def user_input(dungeon, adventurer):
         a = input("Temptation to quit is the greatest just before you are about "
                   "to succeed.\n\nDo you really want to give up? (y or n): ")
         if a == "y":
-            print("\nThere is a difference between giving up and knowing when\n\n"
-                  "you had enough.  Better luck next time.  Game over.\n")
-            input("Press Enter to restart, or exit the game and go cry.")
+            print("\nThere is a difference between giving up and knowing when "
+                  "you had enough.\n\n***GAME OVER***\n")
+            input("Press Enter to restart....")
             restart_game()
         elif a == "n":
             print("\nYou just can't beat the person who won't give up...\n")
@@ -858,34 +865,42 @@ def user_input(dungeon, adventurer):
             dungeon.move_to(x, y - 1)
         else:
             print("That is not a valid command.  Try again. ")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
     elif keystroke == "d":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_south_wall() is False:
             dungeon.move_to(x, y + 1)
         else:
             print("That is not a valid command.  Try again. ")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
     elif keystroke == "l":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_west_wall() is False:
             dungeon.move_to(x - 1, y)
         else:
             print("That is not a valid command.  Try again. ")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
     elif keystroke == "r":
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_east_wall() is False:
+
             dungeon.move_to(x + 1, y)
         else:
             print("That is not a valid command.  Try again. ")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
 
     elif keystroke == "s":
         print("Status:")
         print(player)
         print_room(dungeon)
-        print("\n")
         user_input(dungeon, adventurer)
 
     elif keystroke == "k":
-        print("Map Key:\n\n"
+        print("\nMap Key:\n"
               "i = entrance\n"
               "o = exit\n"
               "A = pillar a\n"
@@ -896,7 +911,7 @@ def user_input(dungeon, adventurer):
               "V = vision potion\n"
               "H = healing potion\n"
               "M = multiple items (pillar, pit, potion(s)\n\n"
-              "User Options:\n\n"
+              "User Options:\n"
               "u = move up\n"
               "d = move down\n"
               "l = move left\n"
@@ -907,27 +922,45 @@ def user_input(dungeon, adventurer):
               "q = quit\n")
     # use healing potion
     elif keystroke == "h":
-        adventurer.use_healing_potion()
+        if adventurer.has_healing_potion():
+            adventurer.use_healing_potion()
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
+        else:
+            print("Should have packed a med-kit.  You have no healing potions.\n")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
 
     # use vision potion
     elif keystroke == "v":
-        adventurer.use_vision_potion()
-        show_vision_map(dungeon)
+        if adventurer.has_vision_potion():
+            adventurer.use_vision_potion()
+            show_vision_map(dungeon)
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
+        else:
+            print("You are blind as a bat. You don't have any vision potions.\n")
+            print_room(dungeon)
+            user_input(dungeon, adventurer)
 
     # hidden menu item to show map
     elif keystroke == "map":
         print(dungeon)
+        user_input(dungeon, adventurer)
     # hidden menu item to show map
     elif keystroke == "vision":
         show_vision_map(dungeon)
+        user_input(dungeon, adventurer)
+    # easter egg
+    elif keystroke == "python":
+        webbrowser.open("https://youtu.be/X_-q9xeOgG4")
+        print_room(dungeon)
+        user_input(dungeon, adventurer)
     else:
         print("That is not a valid command.  Try again.")
         print_room(dungeon)
         user_input(dungeon, adventurer)
 
-
-
-    print("\n")
     scan_room(dungeon, adventurer)
     user_input(dungeon, adventurer)
 
@@ -941,15 +974,16 @@ def game_over(dungeon, adventurer):
      2) WIN if the adventurer collects all four pillars and finds the exit."""
 
     if not adventurer.is_alive():
-        print("It is not just a flesh wound this time.  You died.")
+        print("It is not merely just a flesh wound this time.  You died.")
         print(dungeon)
         roll_credits()
+        print("\n***GAME OVER***\n")
         input("Press Enter to restart game...")
         restart_game()
     # x, y = dungeon.current_room()
     # room = dungeon.room_at(x, y)
     if dungeon.exit_room() == dungeon.current_room() and adventurer.all_pillars_found():
-        print("Horace Mann once said, \"Be ashamed to die until you have \n"
+        print("\nHorace Mann once said, \"Be ashamed to die until you have \n"
               "won some victory for humanity.\"  And today, you won!\n\n"
               "Congratulations!  You defeated the Dungeon of Doom!\n")
         print(dungeon)
@@ -959,7 +993,7 @@ def game_over(dungeon, adventurer):
         input("Press Enter to start a new game.")
         start_game()
     elif dungeon.exit_room() == dungeon.current_room() and not adventurer.all_pillars_found():
-        print("You need to find all of the pillars before exiting the dungeon.\n"
+        print("You need to find all four of the pillars to unlock the exit...\n"
               "There are no shortcuts to any place worth going. Back in you go!\n")
     else:
         return
