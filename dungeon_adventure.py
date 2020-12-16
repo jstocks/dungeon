@@ -975,7 +975,7 @@ def game_over(dungeon, adventurer):
 
     if not adventurer.is_alive():
         print("It is not merely just a flesh wound this time.  You died.")
-        print(dungeon)
+        print(dungeon.original_map)
         roll_credits()
         print("\n***GAME OVER***\n")
         input("Press Enter to restart game...")
@@ -986,10 +986,8 @@ def game_over(dungeon, adventurer):
         print("\nHorace Mann once said, \"Be ashamed to die until you have \n"
               "won some victory for humanity.\"  And today, you won!\n\n"
               "Congratulations!  You defeated the Dungeon of Doom!\n")
-        print(dungeon)
-        print("\n")
+        print(dungeon.original_map)
         roll_credits()
-        print("\n")
         input("Press Enter to start a new game.")
         start_game()
     elif dungeon.exit_room() == dungeon.current_room() and not adventurer.all_pillars_found():

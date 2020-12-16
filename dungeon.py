@@ -22,6 +22,7 @@ class Dungeon:
         self.__pillar_i = 0, 0
         self.__pillar_p = 0, 0
         self.count = 0
+        self.original_map = ""
 
     def room_at(self, x, y):
         """Return the Room string at (x,y)"""
@@ -119,6 +120,7 @@ class Dungeon:
         self.place_pits()
         self.place_vision()
         self.place_healing()
+        self.original_map = self.__repr__()
 
     def place_entrance(self):
         """places entrance in dungeon; currently at the 0,0 index of dungeon"""
@@ -199,10 +201,8 @@ class Dungeon:
         for i in range(number):
             x = random.randint(0, (self.__nx - 1))
             y = random.randint(0, (self.__ny - 1))
-            if self.__maze[x][y] == self.entrance_room() or \
-                    self.__maze[x][y] == self.exit_room():
-                return self.place_pits()
-            else:
+            if self.__maze[x][y] != self.entrance_room() and \
+                    self.__maze[x][y] != self.exit_room():
                 self.__maze[x][y].set_pit(True)
 
     def place_healing(self, probability=0.1):
@@ -211,10 +211,8 @@ class Dungeon:
         for i in range(number):
             x = random.randint(0, (self.__nx - 1))
             y = random.randint(0, (self.__ny - 1))
-            if self.__maze[x][y] == self.entrance_room() or \
-                    self.__maze[x][y] == self.exit_room():
-                return self.place_healing()
-            else:
+            if self.__maze[x][y] != self.entrance_room() and \
+                    self.__maze[x][y] != self.exit_room():
                 self.__maze[x][y].set_healing_potion(True)
 
     def place_vision(self, probability=0.1):
@@ -223,10 +221,8 @@ class Dungeon:
         for i in range(number):
             x = random.randint(0, (self.__nx - 1))
             y = random.randint(0, (self.__ny - 1))
-            if self.__maze[x][y] == self.entrance_room() or \
-                    self.__maze[x][y] == self.exit_room():
-                return self.place_vision()
-            else:
+            if self.__maze[x][y] != self.entrance_room() and \
+                    self.__maze[x][y] != self.exit_room():
                 self.__maze[x][y].set_vision_potion(True)
 
     def __repr__(self):
