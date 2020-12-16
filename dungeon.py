@@ -193,26 +193,41 @@ class Dungeon:
             return self.place_pillar_p()
         self.__maze[x][y].set_pillar_p(True)
 
-    def place_pits(self, probability=.1):
+    def place_pits(self, probability=0.1):
         """set pits in dungeon, can't be in same room as entrance, exit"""
-        num_pits = (self.__nx * self.__ny) * probability  # probability of having a pit
-        x = random.randint(0, (self.__nx - 1))
-        y = random.randint(0, (self.__ny - 1))
-        self.__maze[x][y].set_pit(True)
+        number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
+        for i in range(number):
+            x = random.randint(0, (self.__nx - 1))
+            y = random.randint(0, (self.__ny - 1))
+            if self.__maze[x][y] == self.entrance_room() and \
+                    self.__maze[x][y] == self.exit_room():
+                return self.place_pits()
+            else:
+                self.__maze[x][y].set_pit(True)
 
-    def place_healing(self):
+    def place_healing(self, probability=0.08):
         """set healing in dungeon; can't be in entrance, exit"""
-        num_healing = (self.__nx * self.__ny) * .1  # 10% probability of having a healing potion
-        x = random.randint(0, (self.__nx - 1))
-        y = random.randint(0, (self.__ny - 1))
-        self.__maze[x][y].set_healing_potion(True)
+        number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
+        for i in range(number):
+            x = random.randint(0, (self.__nx - 1))
+            y = random.randint(0, (self.__ny - 1))
+            if self.__maze[x][y] == self.entrance_room() and \
+                    self.__maze[x][y] == self.exit_room():
+                return self.place_healing()
+            else:
+                self.__maze[x][y].set_healing_potion(True)
 
-    def place_vision(self):
+    def place_vision(self, probability=0.05):
         """set vision potion in dungeon, can't be in entrance or exit"""
-        num_vision = (self.__nx * self.__ny) * .1  # 10% probability of having vision potion
-        x = random.randint(0, (self.__nx - 1))
-        y = random.randint(0, (self.__ny - 1))
-        self.__maze[x][y].set_vision_potion(True)
+        number = int((self.__nx * self.__ny) * probability)  # probability of having a pit
+        for i in range(number):
+            x = random.randint(0, (self.__nx - 1))
+            y = random.randint(0, (self.__ny - 1))
+            if self.__maze[x][y] == self.entrance_room() and \
+                    self.__maze[x][y] == self.exit_room():
+                return self.place_vision()
+            else:
+                self.__maze[x][y].set_vision_potion(True)
 
     def __repr__(self):
         """Return a visual string representation of the maze."""
@@ -318,26 +333,18 @@ class Dungeon:
                 print(self.__maze[row][col].__str__())
             print()
 
-#
-maze1 = Dungeon(4, 4, 0, 0)
-print("initial matrix")
-print(maze1)
-maze1.make_dungeon()
-print("\n\ncreate maze")
-print(maze1)
-print("\n\nPlace Items")
-maze1.place_entrance()
-maze1.place_exit()
-maze1.place_pillar_a()
-maze1.place_pillar_e()
-maze1.place_pillar_i()
-maze1.place_pillar_p()
-maze1.place_pits()
-maze1.place_vision()
-maze1.place_healing()
+# #
+# maze1 = Dungeon(10, 10, 0, 0)
+# print("initial matrix")
+# print(maze1)
+# maze1.make_dungeon()
+# print("\n\ncreate maze")
+# print(maze1)
+# print("\n\nPlace Items")
+# maze1.place_dungeon_items()
+# print(maze1)
 
-
-print(maze1)
+# print(maze1)
 # print("Traverse is: ", maze1.traverse())
 # print("Entrance: " + str(maze1.entrance_room()))
 # print("Exit: " + str(maze1.exit_room()))

@@ -782,22 +782,26 @@ def user_input(dungeon, adventurer):
         #     options.append("v")
         # View Status
         options.append("s")
+        options.append("k")
         options.append("q")
         print(options)
         print_room(dungeon)
+        print("\n")
         user_input(dungeon, adventurer)
 
     # quit option
     elif keystroke == "q":
         a = input("Temptation to quit is the greatest just before you are about "
-                  "to succeed.\nDo you really want to give up? (y or n): ")
+                  "to succeed.\n\nDo you really want to give up? (y or n): ")
         if a == "y":
             print("\nThere is a difference between giving up and knowing when you had enough.\n\n"
                   "Better luck next time.  Game over.\n")
             input("Press Enter to restart or exit the game.")
             restart_game()
         elif a == "n":
+            print("\nYou just can't beat the person who won't give up...\n")
             print_room(dungeon)
+            print("\n")
             user_input(dungeon, adventurer)
         else:
             print("That is not a valid command. Try again.")
@@ -833,7 +837,30 @@ def user_input(dungeon, adventurer):
         print("Status:")
         print(player)
         print_room(dungeon)
+        print("\n")
         user_input(dungeon, adventurer)
+
+    elif keystroke == "k":
+        print("Map Key:\n\n"
+              "i = entrance\n"
+              "o = exit\n"
+              "A = pillar a\n"
+              "E = pillar e\n"
+              "I = pillar i\n"
+              "P = pillar p\n"
+              "X = a pit of doom\n"
+              "V = vision potion\n"
+              "H = healing potion\n"
+              "M = multiple items (pillar, pit, potion(s)\n\n"
+              "User Options:\n\n"
+              "u = move up\n"
+              "d = move down\n"
+              "l = move left\n"
+              "r = move right\n"
+              "h = use healing potion\n"
+              "v = use vision potion\n"
+              "s = player status\n"
+              "q = quit\n")
     # use healing potion
     # elif keystroke == "h":
     #     adventurer.use_healing_potion():
@@ -848,9 +875,7 @@ def user_input(dungeon, adventurer):
     elif keystroke == "vision":
         show_vision_map(dungeon)
     else:
-        print("That is not a valid command.  Try again. ")
-
-
+        print("That is not a valid command.  Try again.")
 
     # discover_room() # will pick up potion, discover pillar, or hurt you via pit
     # check for pick_up healing potion if....
@@ -858,6 +883,7 @@ def user_input(dungeon, adventurer):
     # check for pit, hurt if so...
 
     print_room(dungeon)
+    print("\n")
     user_input(dungeon, adventurer)
 
 
