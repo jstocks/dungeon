@@ -9,15 +9,13 @@ from tkinter.messagebox import showinfo
 from dungeon import Dungeon
 
 tk = Tk()
-tk.geometry('650x700')
+tk.geometry('680x700')
 tk.title("THE Dungeon OF Doom by Jeff-Dee-Kishan")
 
 frame = Frame(tk, relief='raised', borderwidth=2)
 frame.pack(fill=BOTH, expand=YES)
 frame.pack_propagate(False)
 
-# center_frame = Frame(frame, relief='raised', borderwidth=2)
-# center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 HD_DOOM = 'THE Dungeon OF Doom'
 FONT_B = ('Courier New', 18, 'bold')
 FONT = ('Courier New', 18)
@@ -61,6 +59,9 @@ class DungeonAdventure:
     def user_name(self):
         return self.__player_name
 
+    # ------------------------------------------------------
+    # This is the main method for THE DUNGEON OF DOOOM game
+    # ------------------------------------------------------
     def playing(self):
 
         def resize_image(event):
@@ -83,6 +84,9 @@ class DungeonAdventure:
         def how_to():
             messagebox.showinfo("THE Dungeon OF Doom", HOWTOPLAY)
 
+        # ----------------------------------------------------
+        # ------------- Introduction Page --------------------
+        # ----------------------------------------------------
         copy_of_image = Image.open("wizard.jpg")
         photo = ImageTk.PhotoImage(copy_of_image)
 
@@ -96,19 +100,22 @@ class DungeonAdventure:
         # ---------------- introduction -----------------
         Label(center_frame, text=INTRO, width=60, bg=BGB, fg=FGY).pack()
 
-        # ------------- buttons --------------------
+        # ------------- "Let's the game begin..." buttons --------------------
         bottom_frame = Frame(tk)
         bottom_frame.pack(side=BOTTOM)
-        start_button = Button(center_frame, text="Let's the game begin...", bg=BGB, font=FONT, command=what_is_your_name)
+        start_button = Button(center_frame,
+                              text="Let's the game begin...",
+                              bg=BGB,
+                              font=FONT,
+                              command=what_is_your_name)
 
         start_button.pack(side=BOTTOM)
 
-        # howto_button = Button(center_frame, text="How to play...", bg=BGB, font=FONT, command=how_to)
-        # howto_button.pack(side=BOTTOM)
-
-        # ------------ After get the play name, start the game -------------------------
+        # ----------------------------------------------------------------------------
+        # ------------ After get a play name, start the game -------------------------
+        # ----------------------------------------------------------------------------
         if self.__player_name != '':
-            # ------------ Create Gid --------------
+
             center_frame.pack_forget()
             copy_of_image = Image.open("Maze.jpg")
             photo = ImageTk.PhotoImage(copy_of_image)
@@ -123,13 +130,16 @@ class DungeonAdventure:
             howto_button = Button(frame, text="How to play...", bg=BGB, font=FONT, command=how_to)
             howto_button.pack(side=TOP)
 
+            # -----------------------------------------------------------
             # ----------------- Difficulty Level ------------------------
+            # -----------------------------------------------------------
+
             Label(center_frame, text=self.__player_name, bg=BGB, fg=FGY, font=FONT).pack()
             Label(center_frame, text="You are about to enter THE DUNGEON OF DOOM.", bg=BGB, fg=FGY, font=FONT).pack()
             Label(center_frame, text="Select a difficulty from 1 (Easy) to 5 (Hard)", bg=BGB, fg=FGY, font=FONT).pack()
             Label(center_frame, bg=BGB).pack()
 
-            # ------------ Get player input difficult Level  ------------------
+            # ------------ Get player input on the difficult Level  ------------------
             player_level = Entry(center_frame)
             player_level.pack()
 
@@ -142,9 +152,15 @@ class DungeonAdventure:
             btn_start = Button(center_frame, text="GO", bg=BGW, fg=FGB, font=FONT_B, command=get_level)
             btn_start.pack()
 
+            # -------------------------------------------------
             # ---------------- Start Playing ------------------
+            # -------------------------------------------------
             if 0 < int(self.__difficult_level) < 6:
+
+                # ---------- Clean every things in the frame --------
                 center_frame.pack_forget()
+
+                # -------- Change the background -------
                 copy_of_image = Image.open("Pillars.jpg")
                 photo = ImageTk.PhotoImage(copy_of_image)
 
@@ -152,32 +168,70 @@ class DungeonAdventure:
                 label.place(x=0, y=0, relwidth=1, relheight=1)
                 label.bind('<Configure>', resize_image)
 
+                # -------- put it in the center of the frame --------
                 center_frame = Frame(frame, relief='raised', borderwidth=5, bg=BGB, width=80)
                 center_frame.place(relx=.5, rely=.5, anchor=CENTER)
+
+                # ------------------ Difficult Level Maze -------------------
+                game_board = Dungeon(5, 5, 0, 0)
                 if int(self.__difficult_level) == 1:
-                    maze = Dungeon(5, 5, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(5, 5, 0, 0)
                 elif int(self.__difficult_level) == 2:
-                    maze = Dungeon(6, 6, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(6, 6, 0, 0)
                 elif int(self.__difficult_level) == 3:
-                    maze = Dungeon(7, 7, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(7, 7, 0, 0)
                 elif int(self.__difficult_level) == 4:
-                    maze = Dungeon(8, 8, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(8, 8, 0, 0)
                 elif int(self.__difficult_level) == 5:
-                    maze = Dungeon(10, 10, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(10, 10, 0, 0)
                 else:
-                    maze = Dungeon(5, 5, 0, 0)
-                    Label(center_frame, text=maze, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+                    game_board = Dungeon(5, 5, 0, 0)
 
-            def exit_game():
-                tk.quit()
+                game_board.make_dungeon()
+                game_board.place_dungeon_items()
+                # -------- To Do -----------
+                # while game_board.traverse() is not True:
+                #     game_board.make_dungeon()
+                #     game_board.place_dungeon_items()
 
-            exit_button = Button(frame, text="Exit The Game", bg=BGB, font=FONT, command=exit_game)
-            exit_button.pack(side=BOTTOM)
+                Label(center_frame, text=game_board, bg=BGB, fg=FGY, font=("Courier New", 18)).pack()
+
+                # ------------------- Show the Items in the Dungeon --------------------
+                bottom_frame1 = Frame(tk)
+                bottom_frame1.pack(side=TOP)
+
+                # ---------------------- if not MAC computer, uncomment this -----------------------
+                # Button(bottom_frame, text="Pillar A", fg=FGG).pack(side=LEFT)
+                # Button(bottom_frame, text="Pillar E", fg=FGG).pack(side=LEFT)
+                # Button(bottom_frame, text="Pillar I", fg=FGG).pack(side=LEFT)
+                # Button(bottom_frame, text="Pillar P", fg=FGG).pack(side=LEFT)
+
+                Button(bottom_frame1, text="Use HEALING Potion", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame1, text="Use VISION Potion", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame1, text="Map Key", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame1, text="       ", bd=0).pack(side=LEFT)
+
+
+                bottom_frame2 = Frame(tk)
+                bottom_frame2.pack(side=TOP)
+                Button(bottom_frame2, text="Move Up", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame2, text="Move Down", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame2, text="Move Left", highlightbackground='#3E4149').pack(side=LEFT)
+                Button(bottom_frame2, text="Move Right", highlightbackground='#3E4149').pack(side=LEFT)
+
+                # ------------------ Place "How to Play" button -------------------
+                Button(bottom_frame2,
+                       text="How to play",
+                       highlightbackground='#3E4149',
+                       command=how_to).pack(side=LEFT)
+
+                def exit_game():
+                    tk.quit()
+
+                Button(bottom_frame2,
+                       text="Exit The Game",
+                       highlightbackground='#3E4149',
+                       command=exit_game).pack(side=LEFT)
 
     def game_active(self):
         if self.__active:
@@ -186,7 +240,3 @@ class DungeonAdventure:
 
 da = DungeonAdventure()
 tk.mainloop()
-
-
-
-
