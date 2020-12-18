@@ -3,7 +3,8 @@ master/maze/df_maze.py"""
 
 
 class Room:
-
+    """class holds the Room attributes and methods to change these attributes,
+    including all of the items and walls"""
     wall_pairs = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
     def __init__(self, x, y):

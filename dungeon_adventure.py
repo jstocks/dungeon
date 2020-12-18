@@ -4,10 +4,13 @@ import webbrowser
 
 
 """DungeonAdventure holds the logic of playing the game.  Re/starts game, creates
-adventurer and dungeon through respective classes, controls user input/options,
-and logic for winning game"""
+adventurer and dungeon through respective classes, controls user input/options & 
+movement, and logic for winning/losing game"""
 
-"""Hidden menu items can be accessed when asked for input: 'vision' and 'map'  """
+"""Hidden menu items can be accessed when asked for input:
+- "vision"
+- "map"
+- "python" """
 
 
 def start_game():
@@ -271,7 +274,7 @@ def show_vision_map(dungeon):
             row, col = dungeon.current_room()
             room = dungeon.room_at(row, col)
 
-            if row == 0:  # edge of dungeon - doesn't work for some reason
+            if row == 0:
                 print("*", end='')
             elif room.has_west_wall():
                 print("|", end='')
@@ -332,7 +335,7 @@ def show_vision_map(dungeon):
             # room 2
             # row, col = dungeon.current_room()
             room = dungeon.room_at(row, col)
-            if room.has_north_wall():  # error?
+            if room.has_north_wall():
                 print("-", end='')
             else:
                 print(" ", end='')
@@ -424,7 +427,7 @@ def show_vision_map(dungeon):
             dungeon.move_to((row - 1), col)
             row, col = dungeon.current_room()
             room = dungeon.room_at(row, col)
-            if row == 0:  # edge of dungeon - doesn't work for some reason
+            if row == 0:
                 print("*", end='')
             elif room.has_west_wall():
                 print("|", end='')
@@ -465,8 +468,6 @@ def show_vision_map(dungeon):
                     print(" ")
 
     def print_fifth_row(row, col):
-        # temp = int(dungeon.get_ny())
-        # room at bottom left corner
         if row == 0 and col == int(dungeon.get_ny()) - 1:
             print("  *****")
         # room at bottom right corner
@@ -479,9 +480,8 @@ def show_vision_map(dungeon):
             # room bordering west dungeon border
             if row == 0:
                 print("  *", end='')
-                # row, col = dungeon.current_room()  # bug fix hash?
                 room = dungeon.room_at(row, col)
-                if room.has_south_wall():  # bug?
+                if room.has_south_wall():
                     print("-*", end='')
                 else:
                     print(" *", end='')
@@ -768,7 +768,6 @@ def scan_room(dungeon, adventurer):
     """
     row, col = dungeon.current_room()
     room = dungeon.room_at(row, col)
-    # letter = room.get_letter()
     pillars = []
     if room.get_healing_potion():
         adventurer.pick_up_healing_potion()
@@ -858,8 +857,6 @@ def user_input(dungeon, adventurer):
             print("That is not a valid command. Try again.")
     # move adventurer
     elif keystroke == "u":
-        # need to validate if it is possible to move up
-        # if it is not possible then use the keyword break
         x, y = dungeon.current_room()
         if dungeon.is_valid_room(x, y) is True and room.has_north_wall() is False:
             dungeon.move_to(x, y - 1)
@@ -976,19 +973,19 @@ def game_over(dungeon, adventurer):
     if not adventurer.is_alive():
         print("It is not merely just a flesh wound this time.  You died.")
         print(dungeon.original_map)
-        roll_credits()
         print("\n***GAME OVER***\n")
+        roll_credits()
+
         input("Press Enter to restart game...")
         restart_game()
-    # x, y = dungeon.current_room()
-    # room = dungeon.room_at(x, y)
+
     if dungeon.exit_room() == dungeon.current_room() and adventurer.all_pillars_found():
         print("\nHorace Mann once said, \"Be ashamed to die until you have \n"
               "won some victory for humanity.\"  And today, you won!\n\n"
               "Congratulations!  You defeated the Dungeon of Doom!\n")
         print(dungeon.original_map)
         roll_credits()
-        input("Press Enter to start a new game.")
+        input("Press Enter to start a new game...")
         start_game()
     elif dungeon.exit_room() == dungeon.current_room() and not adventurer.all_pillars_found():
         print("You need to find all four of the pillars to unlock the exit...\n"

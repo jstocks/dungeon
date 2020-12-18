@@ -104,8 +104,8 @@ class DungeonAdventure:
         bottom_frame = Frame(tk)
         bottom_frame.pack(side=BOTTOM)
         start_button = Button(center_frame,
-                              text="Let's the game begin...",
-                              bg=BGB,
+                              text="CLICK TO START",
+                              bg=BGW,
                               font=FONT,
                               command=what_is_your_name)
 
@@ -127,8 +127,8 @@ class DungeonAdventure:
             center_frame = Frame(frame, relief='raised', borderwidth=5, bg=BGB, width=80)
             center_frame.place(relx=.5, rely=.5, anchor=CENTER)
 
-            howto_button = Button(frame, text="How to play...", bg=BGB, font=FONT, command=how_to)
-            howto_button.pack(side=TOP)
+            howto_button = Button(frame, text="How to play...", bg=BGW, font=FONT, command=how_to)
+            howto_button.pack(side=BOTTOM)
 
             # -----------------------------------------------------------
             # ----------------- Difficulty Level ------------------------
@@ -210,7 +210,6 @@ class DungeonAdventure:
                 Button(bottom_frame1, text="Use VISION Potion", highlightbackground='#3E4149').pack(side=LEFT)
                 Button(bottom_frame1, text="Map Key", highlightbackground='#3E4149').pack(side=LEFT)
                 Button(bottom_frame1, text="       ", bd=0).pack(side=LEFT)
-
 
                 bottom_frame2 = Frame(tk)
                 bottom_frame2.pack(side=TOP)

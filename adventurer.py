@@ -32,7 +32,8 @@ class Adventurer:
         healing_potion_amount = random.randint(5, 15)
         self.__healing_potions.append(healing_potion_amount)
         self.__healing_potions.sort()
-        print("Found a Healing Potion! It can restore " + str(healing_potion_amount) + " health points.\n")
+        print("Found a Healing Potion! It can restore " +
+              str(healing_potion_amount) + " health points.\n")
 
     def pick_up_vision_potion(self):
         """ adds vision potion to inventory"""
@@ -56,8 +57,7 @@ class Adventurer:
 
     def use_vision_potion(self):
         self.__vision_potions -= 1
-        print("Used a Vision Potion!\n")
-
+        print("Used a Vision Potion!")
 
     def use_healing_potion(self):
         """checks if you have healing potion, then provides a menu to select
@@ -79,7 +79,8 @@ class Adventurer:
                     potion_counter += 1
             # while not condition:
                 # have player select the potion he wants to use
-                potion_to_use = int(input("\nSelect the potion (item number) you would like to use, "
+                potion_to_use = int(input("\nSelect the potion (item number) "
+                                          "you would like to use, "
                                           "or enter 0 to cancel: "))
                 if potion_to_use == 0:
                     condition = True
@@ -89,7 +90,8 @@ class Adventurer:
                     healing_amount = self.__healing_potions[potion_to_use - 1]
                     self.change_health_points(healing_amount)
                     del self.__healing_potions[potion_to_use - 1]
-                    print("\nHealed " + str(healing_amount) + " health!\nCurrent health is now " +
+                    print("\nHealed " + str(healing_amount) +
+                          " health!\nCurrent health is now " +
                           str(self.__health_points) + "\n")
                     if self.__health_points == 100:
                         print("You're at full health!")
@@ -124,7 +126,8 @@ class Adventurer:
 
     def all_pillars_found(self):
         """getter for determining if you can win the gam upon exit"""
-        return self.__pillar_a and self.__pillar_i and self.__pillar_e and self.__pillar_p
+        return self.__pillar_a and self.__pillar_i and self.__pillar_e and \
+            self.__pillar_p
 
     def has_healing_potion(self):
         """getter for ability to use healing potions"""
@@ -143,4 +146,5 @@ class Adventurer:
                "A:\t{}\n" \
                "E:\t{}\n" \
                "I:\t{}\n" \
-               "P:\t{}\n".format(self.__pillar_a, self.__pillar_e, self.__pillar_i, self.__pillar_p)
+               "P:\t{}\n".format(self.__pillar_a, self.__pillar_e,
+                                 self.__pillar_i, self.__pillar_p)

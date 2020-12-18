@@ -6,7 +6,8 @@ import random
 
 
 class Dungeon:
-
+    """class creates an instance of a dungeon, creates matrix, removes walls between
+    rooms, adds items, and stores all of the locations and string representations"""
     def __init__(self, nx, ny, ix=0, iy=0):
         """initialize dungeon 2D matrix at (0,0)"""
         self.__nx = nx
@@ -69,7 +70,8 @@ class Dungeon:
         self.__current_room = x, y
 
     def find_neighbors(self, room):
-        """Return a list of unvisited neighbors to room. Helper function for make_dungeon"""
+        """Return a list of unvisited neighbors to room.
+        Helper function for make_dungeon"""
         # options to go to find neighbors
         delta = [('W', (-1, 0)),
                  ('E', (1, 0)),
@@ -85,7 +87,8 @@ class Dungeon:
         return neighbors
 
     def make_dungeon(self):
-        """creating dungeon via removing wall pairs between rooms; makes all rooms accessible"""
+        """creating dungeon via removing wall pairs between rooms;
+        makes all rooms accessible"""
         # Total number of rooms
         n = self.__nx * self.__ny
         room_stack = []
