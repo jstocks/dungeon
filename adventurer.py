@@ -65,9 +65,9 @@ class Adventurer:
         # make a condition to keep asking user to enter proper input
         condition = False
         # check if player has any potions he can use
-        potion_counter = 1
         if len(self.__healing_potions) > 0:
             while not condition:
+                potion_counter = 1
                 # display current health
                 print("Current health: " + str(self.__health_points))
                 print("Note: Max Health Points is 100\n")
