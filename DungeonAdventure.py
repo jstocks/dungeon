@@ -5,7 +5,7 @@ from room import Room
 
 """DungeonAdventure holds the logic of playing the game.  Re/starts game, creates
 adventurer and dungeon through respective classes, controls user input/options,
-and logic for winning game"""
+and logic for winning game """
 
 
 def start_game():
